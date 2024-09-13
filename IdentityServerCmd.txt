@@ -1,0 +1,5 @@
+dotnet new -i identityserver4.templates
+
+dotnet new is4aspid --name MultiShop.IdentityServer
+
+IdentityServer katmanýnda Microsoft.EntityFrameworkCore.SqlServer package 3.1.5 olmalý 
