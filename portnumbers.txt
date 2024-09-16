@@ -1,0 +1,6 @@
+Catalog MikroServis  --> 7070
+Discount MikroServis --> 7071
+Order MikroServis    --> 7072
+Cargo MikroService   --> 7073
+Basket MikroService  --> 7074
+Identity MikroServis --> 5001

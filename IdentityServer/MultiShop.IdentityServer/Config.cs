@@ -12,18 +12,19 @@ namespace MultiShop.IdentityServer
     {
         public static IEnumerable<ApiResource> ApiResources => new ApiResource[]
         {
-            new ApiResource("ResourceCatalog")
-            {
-                Scopes = {"CatalogFullPermission", "CatalogReadPermission" }
+            new ApiResource("ResourceCatalog"){Scopes = {"CatalogFullPermission", "CatalogReadPermission" }
             },
-            new ApiResource("ResourceDiscount")
-            {
-                Scopes = { "DiscountFullPermission" }
+            new ApiResource("ResourceDiscount"){Scopes = { "DiscountFullPermission" }
             },
-            new ApiResource("ResourceOrder")
-            {
-                Scopes = {"OrderFullPermission"}
-            }
+            new ApiResource("ResourceOrder"){Scopes = {"OrderFullPermission"}
+            },
+            new ApiResource("ResourceCargo"){
+                Scopes = {"CargoFullPermission" },
+            },
+            new ApiResource("ResourceBasket"){
+                Scopes = {"BasketFullPermission" },
+            },
+            new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
         };
 
         public static IEnumerable<IdentityResource> IdentityResources => new IdentityResource[] {
@@ -36,7 +37,10 @@ namespace MultiShop.IdentityServer
             new ApiScope("CatalogFullPermission","FullAuthorityForCatalogOperations"),
             new ApiScope("CatalogReadPermission","ReadingAuthorityForCatalogOperations"),
             new ApiScope("DiscountFullPermission","FullAuthorityForDiscountOperations"),
-            new ApiScope("OrderFullPermission","FullAuthorityForOrderOperations")
+            new ApiScope("OrderFullPermission","FullAuthorityForOrderOperations"),
+            new ApiScope("CargoFullPermission","FullAuthorityForCargoOperations"),
+            new ApiScope("BasketFullPermission","FullAuthorityForBasketOperations"),
+            new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
         };
 
         public static IEnumerable<Client> Clients => new Client[]
@@ -48,7 +52,7 @@ namespace MultiShop.IdentityServer
                 ClientName="Multi Shop Visitor User",
                 AllowedGrantTypes=GrantTypes.ClientCredentials,//Client işlemlerinde kullandığımız kimlik işlemi
                 ClientSecrets = {new Secret("multishopsecret".Sha256())},
-                AllowedScopes={ "CatalogReadPermission" }
+                AllowedScopes={ "DiscountFullPermission" }
             },
 
             //Manager - Yönetici
@@ -56,7 +60,7 @@ namespace MultiShop.IdentityServer
             {
                 ClientId = "MultiShopManagerId",
                 ClientName = "Multi Shop Manager User",
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword, //Giriş yapan kullanıcının şifresine göre çalışsın
                 ClientSecrets = {new Secret("multishopsecret".Sha256())},
                 AllowedScopes = {"CatalogReadPermission","CatalogFullPermision"}
             },
@@ -66,9 +70,9 @@ namespace MultiShop.IdentityServer
             {
                 ClientId = "MultiShopAdminId",
                 ClientName = "Multi Shop Admin User",
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                 ClientSecrets = {new Secret("multishopsecret".Sha256())},
-                AllowedScopes={ "CatalogFullPermission", "CatalogReadPermission", "DiscountFullPermission", "OrderFullPermission",
+                AllowedScopes={ "CatalogFullPermission", "CatalogReadPermission", "DiscountFullPermission", "OrderFullPermission","CargoFullPermission","BasketFullPermission",
                     IdentityServerConstants.LocalApi.ScopeName,
                     IdentityServerConstants.StandardScopes.Email,
                     IdentityServerConstants.StandardScopes.OpenId,

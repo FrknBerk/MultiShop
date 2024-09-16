@@ -1,0 +1,60 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Extensions.Options;
+using MultiShop.Basket.LoginServices;
+using MultiShop.Basket.Services;
+using MultiShop.Basket.Settings;
+using System.IdentityModel.Tokens.Jwt;
+
+var builder = WebApplication.CreateBuilder(args);
+
+var requiredAuthorizePoliciy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.Authority = builder.Configuration["IdentityServerUrl"];
+    opt.Audience = ("ResourceBasket");
+    opt.RequireHttpsMetadata = false;
+    opt.MapInboundClaims = false; //System.NullReferenceException: 'Object reference not set to an instance of an object.' hatasýndan dolayý eþleþip eþlenmeyeceði durumunu eþleþmeyeceðiz dedik
+});
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IBasketService, BasketService>();
+builder.Services.Configure<RedisSettings>(builder.Configuration.GetSection("RedisSettings"));
+builder.Services.AddSingleton<RedisService>(sp =>
+{
+    var redisSettings = sp.GetRequiredService<IOptions<RedisSettings>>().Value;
+    var redis = new RedisService(redisSettings.Host, redisSettings.Port);
+    redis.Connect();
+    return redis;
+});
+
+builder.Services.AddControllers(opt =>
+{
+    //Bütün contollerde Authorize yazmak yerine burda tanýmlýyoruz
+    opt.Filters.Add(new AuthorizeFilter(requiredAuthorizePoliciy));
+});
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

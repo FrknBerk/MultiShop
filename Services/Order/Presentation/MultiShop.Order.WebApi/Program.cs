@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MultiShop.Order.Application.Features.CQRS.Handlers.AddressHandlers;
 using MultiShop.Order.Application.Features.CQRS.Handlers.OrderDetailHandlers;
 using MultiShop.Order.Application.Interfaces;
@@ -9,6 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<OrderContext>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddApplicationService(builder.Configuration);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.Authority = builder.Configuration["IdentityServerUrl"];
+    opt.Audience = "ResourceOrder"; //ResourceDiscount karþýsýndaki bütün iþlemleri yapacak
+    opt.RequireHttpsMetadata = false;
+});
 
 #region
 builder.Services.AddScoped<GetAddressByIdQueryHandler>();
@@ -40,6 +48,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
