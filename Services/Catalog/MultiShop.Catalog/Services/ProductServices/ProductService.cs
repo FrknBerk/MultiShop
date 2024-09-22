@@ -15,10 +15,12 @@ namespace MultiShop.Catalog.Services.ProductServices
             var client = new MongoClient(_databaseSettings.ConnectString);
             var database = client.GetDatabase(_databaseSettings.DatabaseName);
             _productCollection = database.GetCollection<Product>(_databaseSettings.ProductCollectionName);
+            _categoryCollection = database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);
             _mapper = mapper;
         }
 
         private readonly IMongoCollection<Product> _productCollection;
+        private readonly IMongoCollection<Category> _categoryCollection;
         public async Task CreateProductAsync(CreateProductDto createProductDto)
         {
             var values = _mapper.Map<Product>(createProductDto);
@@ -46,6 +48,26 @@ namespace MultiShop.Catalog.Services.ProductServices
         {
             var values = _mapper.Map<Product>(updateProductDto);
             await _productCollection.FindOneAndReplaceAsync(x => x.ProductId == updateProductDto.ProductId, values);
+        }
+
+        public async Task<List<ResultProductsWithCategoryDto>> GetProductcWithCategoryAsync()
+        {
+            var values = await _productCollection.Find(x => true).ToListAsync();
+            foreach (var item in values)
+            {
+                item.Category = await _categoryCollection.Find<Category>(x => x.CategoryId == item.CategoryId).FirstAsync();
+            }
+            return _mapper.Map<List<ResultProductsWithCategoryDto>>(values);
+        }
+
+        public async Task<List<ResultProductsWithCategoryDto>> GetProductsWithCategoryByCategoryIdAsync(string categoryId)
+        {
+            var values = await _productCollection.Find(x => x.CategoryId == categoryId).ToListAsync();
+            foreach (var item in values)
+            {
+                item.Category = await _categoryCollection.Find<Category>(x => x.CategoryId == item.CategoryId).FirstAsync();
+            }
+            return _mapper.Map<List<ResultProductsWithCategoryDto>>(values);
         }
     }
 }

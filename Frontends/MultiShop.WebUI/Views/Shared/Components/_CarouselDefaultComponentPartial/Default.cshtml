@@ -1,19 +1,61 @@
-﻿
+﻿@model List<ResultFeatureSliderDto>
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-
+@{
+    int count = 0;
+    int countSlider = 0;
+}
 <div class="container-fluid mb-3">
     <div class="row px-xl-5">
         <div class="col-lg-8">
             <div id="header-carousel" class="carousel slide carousel-fade mb-30 mb-lg-0" data-ride="carousel">
                 <ol class="carousel-indicators">
-                    <li data-target="#header-carousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#header-carousel" data-slide-to="1"></li>
-                    <li data-target="#header-carousel" data-slide-to="2"></li>
+                    @foreach (var item in Model)
+                    {
+                        if (item.Status == true && countSlider == 0)
+                        {
+                            <li data-target="#header-carousel" data-slide-to="@countSlider" class="active"></li>
+                        }
+                        if (item.Status == true && countSlider != 0)
+                        {
+                            <li data-target="#header-carousel" data-slide-to="@countSlider"></li>
+                        }
+                        countSlider++;
+                    }
                 </ol>
                 <div class="carousel-inner">
-                    <div class="carousel-item position-relative active" style="height: 430px;">
+                    @foreach (var item in Model)
+                    {
+                        count++;
+                        if(item.Status == true && count ==1)
+                        {
+                            <div class="carousel-item position-relative active" style="height: 430px;">
+                                <img class="position-absolute w-100 h-100" src="@item.ImageUrl" style="object-fit: cover;">
+                                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                                    <div class="p-3" style="max-width: 700px;">
+                                        <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">@item.Title</h1>
+                                        <p class="mx-md-5 px-5 animate__animated animate__bounceIn">@item.Description</p>
+                                        <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="#">Şimdi Alışveriş yap</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        if (item.Status == true && count != 1)
+                        {
+                            <div class="carousel-item position-relative" style="height: 430px;">
+                                <img class="position-absolute w-100 h-100" src="@item.ImageUrl" style="object-fit: cover;">
+                                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                                    <div class="p-3" style="max-width: 700px;">
+                                        <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">@item.Title</h1>
+                                        <p class="mx-md-5 px-5 animate__animated animate__bounceIn">@item.Description</p>
+                                        <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="#">Şimdi Alışveriş yap</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    @* <div class="carousel-item position-relative active" style="height: 430px;">
                         <img class="position-absolute w-100 h-100" src="https://cdn.mos.cms.futurecdn.net/PP4mzLahKzbamkUPVUsU3W-1280-80.jpg.webp" style="object-fit: cover;">
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3" style="max-width: 700px;">
@@ -42,7 +84,7 @@
                                 <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="#">Şimdi Alışveriş yap</a>
                             </div>
                         </div>
-                    </div>
+                    </div> *@
                 </div>
             </div>
         </div>

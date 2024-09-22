@@ -1,0 +1,28 @@
+﻿@model UpdateBrandDto
+@{
+    ViewData["Title"] = "UpdateBrand";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <div class="bs-example" data-example-id="bordered-table">
+                    <form method="post">
+                        <input type="hidden" class="form-control" asp-for="BrandId" placeholder="Marka Id..." />
+                        <br />
+                        <label>Marka Adı</label>
+                        <input type="text" class="form-control" asp-for="BrandName" placeholder="Marka Adı..." />
+                        <br />
+                        <label>Marka Resmi</label>
+                        <input type="text" class="form-control" asp-for="ImageUrl" placeholder="Marka Resmi..." />
+                        <br />
+                        <button class="btn btn-primary">Özel Teklif Güncelle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

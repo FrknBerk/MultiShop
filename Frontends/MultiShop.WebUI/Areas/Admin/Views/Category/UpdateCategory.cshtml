@@ -12,7 +12,11 @@
                     <form method="post">
                         <input type="hidden" class="form-control" asp-for="CategoryId" placeholder="Kategori Id" readonly />
                         <br />
+                        <label>Kategori Adı</label>
                         <input type="text" class="form-control" asp-for="CategoryName" placeholder="Kategori Adı Giriniz..." />
+                        <br />
+                        <label>Kategori Resmi</label>
+                        <input type="text" class="form-control" asp-for="ImageUrl" placeholder="Kategori Resmi Giriniz..." />
                         <br />
                         <button class="btn btn-warning">Kategori Güncelle</button>
                     </form>

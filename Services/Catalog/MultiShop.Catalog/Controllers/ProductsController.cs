@@ -5,6 +5,7 @@ using MultiShop.Catalog.Dtos.CategoryDtos;
 using MultiShop.Catalog.Dtos.ProductDtos;
 using MultiShop.Catalog.Services.CategoryServices;
 using MultiShop.Catalog.Services.ProductServices;
+using System.ComponentModel;
 
 namespace MultiShop.Catalog.Controllers
 {
@@ -54,6 +55,20 @@ namespace MultiShop.Catalog.Controllers
         {
             await _productService.UpdateProductAsync(updateProductDto);
             return Ok("Ürün başarıyla güncellendi");
+        }
+
+        [HttpGet("ProductListWithCategory")]
+        public async Task<IActionResult> ProductListWithCategory()
+        {
+            var values = await _productService.GetProductcWithCategoryAsync();
+            return Ok(values);
+        }
+
+        [HttpGet("ProductListWithCategoryByCategoryId")]
+        public async Task<IActionResult> ProductListWithCategory(string categoryId)
+        {
+            var values = await _productService.GetProductsWithCategoryByCategoryIdAsync(categoryId);
+            return Ok(values);
         }
     }
 }

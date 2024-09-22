@@ -1,0 +1,27 @@
+﻿@model CreateFeatureSliderDto
+@{
+    ViewData["Title"] = "CreateFeatureSlider";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <div class="bs-example" data-example-id="bordered-table">
+                    <form method="post">
+                        <input type="text" class="form-control" asp-for="Title" placeholder="Görsel Başlığı..." />
+                        <br />
+                        <input type="text" class="form-control" asp-for="Description" placeholder="Görsel Açıklaması..." />
+                        <br />
+                        <input type="text" class="form-control" asp-for="ImageUrl" placeholder="Görsel Linki..." />
+                        <br />
+                        <input type="checkbox" class="form-control" asp-for="Status" placeholder="Görsel Durumu..." />
+                        <br />
+                        <button class="btn btn-primary">Öne Çıkan Slider Görseli Ekle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
