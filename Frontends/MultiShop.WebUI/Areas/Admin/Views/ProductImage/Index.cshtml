@@ -1,4 +1,5 @@
 ﻿@model List<ResultProductImageDto>
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
@@ -28,17 +29,74 @@
                                     <tr>
                                         <th scope="row">@count</th>
                                         <td><img src="@item.Image" style="width:50px;height:50px;" /></td>
-                                        <td><a href="/Admin/ProductImage/DeleteProductImage/@item.ProductImageId?id=@item.ProductId" class="btn btn-warning">Sil</a></td>
+                                        <td><a href="/Admin/ProductImage/DeleteProductImage/?productImageId=@item.ProductImageId&&productId=@item.ProductId" class="btn btn-warning">Sil</a></td>
                                         <td><a href="/Admin/ProductImage/UpdateProductImage/@item.ProductImageId" class="btn btn-success">Güncelle</a></td>
                                     </tr>
+                                    ViewBag.productId = item.ProductId;
                                 }
                             }
                         </tbody>
                     </table>
-                    <a href="/Admin/ProductImage/CreateProductImage/@Model.FirstOrDefault().ProductId" class="btn btn-primary">Yeni Resim girişi</a>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Resim Ekle
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ürün Resim Ekle</h1>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <input type="hidden" class="form-control" id="ProductId" name="ProductId" placeholder="Marka Adı..." value="@ViewBag.productId" />
+                    <br />
+                    <input type="text" class="form-control" id="Image" name="Image" placeholder="Marka Görsel..." />
+                    <br />
+                    <button type="submit" class="btn btn-primary">Ürün Resim Ekle</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Form submit olduğunda AJAX çağrısını tetikleyin
+        $("#userForm").submit(function (event) {
+            event.preventDefault(); // Formun normal gönderimini durduruyoruz
+
+            // Form verilerini JSON formatına çeviriyoruz
+            var createProductImageDto = {
+                ProductId: $("#ProductId").val(),
+                Image: $("#Image").val()
+            };
+
+            // AJAX POST isteği
+            $.ajax({
+                url: '@Url.Action("CreateProductImage", "ProductImage")',
+                type: 'POST',
+                data: createProductImageDto,
+                success: function (response) {
+                    // Başarılı olduğunda mesajı göster
+                    console.log("Başarılı")
+                },
+                error: function (xhr, status, error) {
+                    // Hata olursa mesajı göster
+                    console.log("hatalı")
+                }
+            });
+        });
+    });
+</script>

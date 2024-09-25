@@ -41,11 +41,10 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             return View();
         }
 
-        [Route("CreateProductImage/{id}")]
+        [Route("CreateProductImage")]
         [HttpGet]
-        public IActionResult CreateProductImage(string id)
+        public IActionResult CreateProductImage()
         {
-            ViewBag.x = id;
             ViewBag.v0 = "Ürün Resim İşlemleri";
             ViewBag.v1 = "Ana Sayfa";
             ViewBag.v2 = "Ürün Resim";
@@ -63,12 +62,12 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             var responseMessage = await client.PostAsync("https://localhost:7070/api/ProductImages", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "ProductImage", new { area = "Admin" });
+                return RedirectToAction("Index", "ProductImage", new { area = "Admin",id = createProductImageDto.ProductId  });
             }
             return View();
         }
 
-        [Route("DeleteProductImage/{productImageId}&{productId}")]
+        [Route("DeleteProductImage/")]
         public async Task<IActionResult> DeleteProductImage(string productImageId, string productId)
         {
             var client = _httpClientFactory.CreateClient();
@@ -109,7 +108,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             var responseMessage = await client.PutAsync("https://localhost:7070/api/ProductImages/", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "ProductImage", new { area = "Admin" });
+                return RedirectToAction("Index", "ProductImage", new { area = "Admin", id = updateProductImageDto.ProductId });
             }
             return View();
         }
