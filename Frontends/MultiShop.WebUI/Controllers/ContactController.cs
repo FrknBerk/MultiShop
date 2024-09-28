@@ -2,13 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.CatalogDtos.ContactDtos;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace MultiShop.WebUI.Controllers
 {
-    [AllowAnonymous]
-    [Area("Admin")]
-    [Route("Admin/Contact")]
     public class ContactController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -27,13 +26,21 @@ namespace MultiShop.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(CreateContactDto createContactDto)
         {
+
+            var token = HttpContext.Session.GetString("AccessToken");
+            if (string.IsNullOrEmpty(token))
+                return View("Index", "Login");
+
+            createContactDto.IsRead = false;
+            createContactDto.SendDate = DateTime.Now;
             var client = _httpClientFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var jsonData = JsonConvert.SerializeObject(createContactDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7070/api/Contact", stringContent);
+            var responseMessage = await client.PostAsync("https://localhost:7070/api/Contacts", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "Category", new { area = "Admin" });
+                return RedirectToAction("Index", "Default");
             }
             return View();
         }

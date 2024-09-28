@@ -9,9 +9,8 @@ using System.ComponentModel;
 
 namespace MultiShop.Catalog.Controllers
 {
-    //[AllowAnonymous]
-    //[Authorize]
-    [Route("api/[controller]")]
+	[Authorize]
+	[Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {

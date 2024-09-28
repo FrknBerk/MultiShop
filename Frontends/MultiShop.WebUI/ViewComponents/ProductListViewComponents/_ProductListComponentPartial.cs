@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.CatalogDtos.ProductDtos;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace MultiShop.WebUI.ViewComponents.ProductListViewComponents
 {
@@ -15,8 +16,13 @@ namespace MultiShop.WebUI.ViewComponents.ProductListViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string id)
         {
+            var token = HttpContext.Session.GetString("AccessToken");
+            if (string.IsNullOrEmpty(token))
+                return View("Index", "Login");
+
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7070/api/Products/ProductListWithCategoryByCategoryId?categoryId="+id);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var responseMessage = await client.GetAsync("http://localhost:7070/api/Products/ProductListWithCategoryByCategoryId?categoryId="+id);
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
