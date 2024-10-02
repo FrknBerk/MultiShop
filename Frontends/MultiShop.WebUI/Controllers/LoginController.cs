@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using IdentityModel.AspNetCore.AccessTokenManagement;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.IdentityDtos.LoginDtos;
 using MultiShop.WebUI.Models;
-using MultiShop.WebUI.Services;
 using MultiShop.WebUI.Services.Interface;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -13,17 +13,15 @@ using System.Text.Json;
 
 namespace MultiShop.WebUI.Controllers
 {
-	public class LoginController : Controller
+    public class LoginController : Controller
 	{
-		private readonly IHttpClientFactory _httpClientFactory;
-		private readonly ILoginService _loginService;
 		private readonly IIdentityService _identityService;
+		private readonly IClientAccessTokenCache _clientAccessTokenCache;
 
-        public LoginController(IHttpClientFactory httpClientFactory, ILoginService loginService, IIdentityService identityService)
+        public LoginController(IIdentityService identityService, IClientAccessTokenCache clientAccessTokenCache)
         {
-            _httpClientFactory = httpClientFactory;
-            _loginService = loginService;
             _identityService = identityService;
+            _clientAccessTokenCache = clientAccessTokenCache;
         }
 
         [HttpGet]
@@ -42,26 +40,10 @@ namespace MultiShop.WebUI.Controllers
 				return View();
 		}
 
-		//[HttpGet]
-		//public IActionResult SignIn()
-		//{
-		//	return View();
-		//}
-
-		//[HttpPost]
-		public async Task<IActionResult> SignIn(SignInDto signInDto)
-		{
-            signInDto.UserName = "ayse01";
-            signInDto.Password = "123456aA*11";
-			await _identityService.SignIn(signInDto);
-			return RedirectToAction("Index", "Test");
-		}
-
 		[HttpPost]
 		public async Task<IActionResult> Logout()
 		{
-			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-			HttpContext.Session.Clear();
+			await _clientAccessTokenCache.DeleteAsync("AccessToken");
 			return RedirectToAction("Index", "Login");
 		}
 	}

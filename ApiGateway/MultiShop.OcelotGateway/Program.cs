@@ -4,7 +4,7 @@ using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAuthentication().AddJwtBearer("OcelotAythenticationShceme", opt =>
+builder.Services.AddAuthentication().AddJwtBearer("OcelotAuthenticationShceme", opt =>
 {
     opt.Authority = builder.Configuration["IdentityServerUrl"];
     opt.Audience = ("ResourceOcelot");

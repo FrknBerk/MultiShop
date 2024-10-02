@@ -53,7 +53,8 @@ namespace MultiShop.IdentityServer
                 ClientName="Multi Shop Visitor User",
                 AllowedGrantTypes=GrantTypes.ClientCredentials,//Client işlemlerinde kullandığımız kimlik işlemi
                 ClientSecrets = {new Secret("multishopsecret".Sha256())},
-                AllowedScopes={ "CatalogReadPermission", "CommentFullPermission","ImageFullPermission", "OcelotFullPermission", }
+                AllowedScopes={ "CatalogReadPermission", "CatalogFullPermission", "CommentFullPermission","ImageFullPermission", "OcelotFullPermission",
+                    IdentityServerConstants.LocalApi.ScopeName, }
             },
 
             //Manager - Yönetici
@@ -63,7 +64,11 @@ namespace MultiShop.IdentityServer
                 ClientName = "Multi Shop Manager User",
                 AllowedGrantTypes = GrantTypes.ResourceOwnerPassword, //Giriş yapan kullanıcının şifresine göre çalışsın
                 ClientSecrets = {new Secret("multishopsecret".Sha256())},
-                AllowedScopes = {"CatalogReadPermission","CatalogFullPermision" , "BasketFullPermission", "CommentFullPermission","PaymentFullPermission", "ImageFullPermission", "OcelotFullPermission" }
+                AllowedScopes = {"CatalogReadPermission","CatalogFullPermision" , "BasketFullPermission", "CommentFullPermission","PaymentFullPermission", "ImageFullPermission", "OcelotFullPermission",
+                    IdentityServerConstants.LocalApi.ScopeName,
+                    IdentityServerConstants.StandardScopes.Email,
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile, }
             },
 
             //Admin
