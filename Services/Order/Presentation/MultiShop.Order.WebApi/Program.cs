@@ -9,6 +9,7 @@ using MultiShop.Order.Persistence.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<OrderContext>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped(typeof(IOrderingRepository),typeof(OrderingRepository));
 builder.Services.AddApplicationService(builder.Configuration);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>

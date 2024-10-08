@@ -4,7 +4,7 @@ namespace MultiShop.WebUI.Areas.User.Controllers
 {
     public class MessageController : Controller
     {
-        [Area("Message")]
+        [Area("User")]
         public IActionResult Index()
         {
             return View();

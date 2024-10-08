@@ -2,7 +2,7 @@
 
 namespace MultiShop.WebUI.Areas.User.Controllers
 {
-    [Area("Cargo")]
+    [Area("User")]
     public class CargoController : Controller
     {
         public IActionResult Index()
