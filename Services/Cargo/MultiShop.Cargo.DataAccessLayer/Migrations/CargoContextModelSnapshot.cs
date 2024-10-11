@@ -75,6 +75,9 @@ namespace MultiShop.Cargo.DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("USerCustomerId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("CargoCustomerId");
 
                     b.ToTable("CargoCustomers");

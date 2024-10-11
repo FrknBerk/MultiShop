@@ -1,4 +1,5 @@
 Ocolot Gateway       --> 5000
+Identity MikroServis --> 5001
 Catalog MikroServis  --> 7070
 Discount MikroServis --> 7071
 Order MikroServis    --> 7072
@@ -6,5 +7,5 @@ Cargo MikroService   --> 7073
 Basket MikroService  --> 7074
 Comment MikroService --> 7075
 Payment MikroService --> 7076
-Images MikroService --> 7077
-Identity MikroServis --> 5001
+Images MikroService  --> 7077
+Message MikroService --> 7078

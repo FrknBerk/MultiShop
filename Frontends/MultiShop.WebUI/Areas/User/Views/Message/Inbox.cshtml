@@ -1,0 +1,67 @@
+﻿@model List<ResultInboxMessageDto>
+@{
+    ViewData["Title"] = "Inbox";
+    Layout = "~/Views/UILayout/_UILayout.cshtml";
+    int count = 0;
+}
+<div class="container">
+    <div class="info-block">
+        <p>Total paid invoices 5340, unpaid 130. <span class="pull-right"><a href="app/invoice.html">Invoice Summary <i class="fa fa-long-arrow-right"></i></a></span> </p>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Gönderen</th>
+                    <th>Konu</th>
+                    <th>Tarih</th>
+                    <th>Durum</th>
+                    <th>Sil</th>
+                    <th>Mesajı Aç</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    count++;
+                    <tr>
+                        <td class="text-truncate">@count</td>
+                        <td class="text-truncate">@item.SendedId</td>
+                        <td class="text-truncate">@item.Subject</td>
+                        <td class="text-truncate">@(((DateTime)item.MessageDate).ToString("dd-MMM-yyyy"))</td>
+                        <td class="text-truncate">@item.IsRead</td>
+                        <td class="text-truncate"><a href="" class="btn btn-danger">Sil</a></td>
+                        <td class="text-truncate"><a href="" class="btn btn-success">Mesajı Aç</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@* <div class="col-lg-12">
+    <div class="chart-box">
+        <h4>Recent Messages</h4>
+        <div class="message-widget">
+            <a href="#">
+                <div class="user-img pull-left"> <img src="dist/img/img1.jpg" class="img-circle img-responsive" alt="User Image"> <span class="profile-status online pull-right"></span> </div>
+                <div class="mail-contnet">
+                    <h5>Florence Douglas</h5>
+                    <span class="mail-desc">Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has been.</span> <span class="time">9:30 AM</span>
+                </div>
+            </a> <a href="#">
+                <div class="user-img pull-left"> <img src="dist/img/img3.jpg" class="img-circle img-responsive" alt="User Image"> <span class="profile-status invisable pull-right"></span> </div>
+                <div class="mail-contnet">
+                    <h5>Florence Douglas</h5>
+                    <span class="mail-desc">Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has been.</span> <span class="time">10:30 AM</span>
+                </div>
+            </a> <a href="#">
+                <div class="user-img pull-left"> <img src="dist/img/img4.jpg" class="img-circle img-responsive" alt="User Image"> <span class="profile-status offline pull-right"></span> </div>
+                <div class="mail-contnet">
+                    <h5>Florence Douglas</h5>
+                    <span class="mail-desc">Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has been.</span> <span class="time">12:30 AM</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div> *@
