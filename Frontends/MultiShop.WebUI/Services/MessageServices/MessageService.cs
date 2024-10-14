@@ -1,6 +1,7 @@
 ﻿using MultiShop.DtoLayer.CommentDtos;
 using MultiShop.DtoLayer.MessageDtos;
 using Newtonsoft.Json;
+using NuGet.Protocol.Plugins;
 
 namespace MultiShop.WebUI.Services.MessageServices
 {
@@ -25,6 +26,14 @@ namespace MultiShop.WebUI.Services.MessageServices
             var responseMessage = await _httpClient.GetAsync("usermessages/GetMessageSendBox?id=" + sendId);
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             var values = JsonConvert.DeserializeObject<List<ResultSendboxMessageDto>>(jsonData);
+            return values;
+        }
+
+        public async Task<int> GetTotalMessageCountByReceiverId(string id)
+        {
+            var responseMessage = await _httpClient.GetAsync("usermessages/GetTotalMessageCountByReceiverId?id=" + id);
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            var values = JsonConvert.DeserializeObject<int>(jsonData);
             return values;
         }
     }

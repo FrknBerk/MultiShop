@@ -65,8 +65,8 @@
             <div class="media-box bg-blue">
                 <div class="media-icon pull-left"><i class="icon-basket"></i> </div>
                 <div class="media-info">
-                    <h5>Total Sales</h5>
-                    <h3>935</h3>
+                    <h5>Toplam Kullanıcı Sayısı</h5>
+                    <h3>@ViewBag.GetUserCount</h3>
                 </div>
             </div>
         </div>
@@ -74,8 +74,8 @@
             <div class="media-box bg-green">
                 <div class="media-icon pull-left"><i class="icon-layers"></i> </div>
                 <div class="media-info">
-                    <h5>New Orders</h5>
-                    <h3>5324</h3>
+                    <h5>Toplam Marka</h5>
+                    <h3>@ViewBag.BrandCount</h3>
                 </div>
             </div>
         </div>
@@ -85,8 +85,8 @@
             <div class="media-box">
                 <div class="media-icon pull-left"><i class="icon-bargraph"></i> </div>
                 <div class="media-info">
-                    <h5>Toplam Marka</h5>
-                    <h3>@ViewBag.BrandCount</h3>
+                    <h5>Toplam Yorum Sayısı</h5>
+                    <h3>@ViewBag.GetTotalCommentCount</h3>
                 </div>
             </div>
         </div>
@@ -94,8 +94,8 @@
             <div class="media-box bg-sea">
                 <div class="media-icon pull-left"><i class="icon-wallet"></i> </div>
                 <div class="media-info">
-                    <h5>Total Payment</h5>
-                    <h3>$8,530</h3>
+                    <h5>Toplam Aktif Yorum Sayısı</h5>
+                    <h3>@ViewBag.GetActiveCommentCount</h3>
                 </div>
             </div>
         </div>
@@ -103,8 +103,8 @@
             <div class="media-box bg-blue">
                 <div class="media-icon pull-left"><i class="icon-basket"></i> </div>
                 <div class="media-info">
-                    <h5>Total Sales</h5>
-                    <h3>935</h3>
+                    <h5>Toplam Pasif Yorum Sayısı</h5>
+                    <h3>@ViewBag.GetPassiveCommentCount</h3>
                 </div>
             </div>
         </div>
@@ -112,8 +112,17 @@
             <div class="media-box bg-green">
                 <div class="media-icon pull-left"><i class="icon-layers"></i> </div>
                 <div class="media-info">
-                    <h5>New Orders</h5>
-                    <h3>5324</h3>
+                    <h5>Toplam İndirim Sayısı</h5>
+                    <h3>@ViewBag.GetTotalDiscountCount</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <div class="media-box bg-green">
+                <div class="media-icon pull-left"><i class="icon-layers"></i> </div>
+                <div class="media-info">
+                    <h5>Toplam Mesaj Sayısı</h5>
+                    <h3>@ViewBag.GetTotalMessageCount</h3>
                 </div>
             </div>
         </div>
