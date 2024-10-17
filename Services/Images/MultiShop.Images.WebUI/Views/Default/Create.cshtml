@@ -1,0 +1,30 @@
+﻿@model ImageDrive
+@{
+    ViewData["Title"] = "Create";
+}
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<div class="container">
+    <br /><br />
+    <form method="post" enctype="multipart/form-data">
+        <label>Resim Adı</label>
+        <input type="text" class="form-control border" name="Name" />
+        <br />
+        <label>Resim Fotosu</label>
+        <input type="file" class="form-control border" name="Photo" />
+        <br />
+        @* if (!String.IsNullOrWhiteSpace(Model.SignedUrl))
+        {
+            <div class="md-col-2">
+                @Html.DisplayNameFor(model => model.Photo)
+            </div>
+            <div cite="md-col-10">
+                <img src="@Model.SignedUrl" class="figure-img img-fluid rounded" alt="@Model.SavedFileName">
+            </div>
+        } *@
+
+        <input name="SavedUrl" type="hidden" class="form-control" />
+        <input name="SavedFileName" type="hidden" class="form-control" />
+        <button class="btn btn-outline-info">Görseli Kaydet</button>
+
+    </form>
+</div>
