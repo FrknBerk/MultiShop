@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MultiShop.DtoLayer.IdentityDtos.UserDtos
 {
-    public class ResultUserDto
+    public class UpdateUserDto
     {
         public string Name { get; set; }
         public string Surname { get; set; }

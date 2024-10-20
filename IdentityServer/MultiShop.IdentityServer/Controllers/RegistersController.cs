@@ -31,7 +31,13 @@ namespace MultiShop.IdentityServer.Controllers
                 Email = registerDto.Email,
                 Name = registerDto.Name,
                 Surname = registerDto.Surname,
-
+                Birthday = registerDto.Birthday,
+                AddressDescription = registerDto.AddressDescription,
+                AddressTitle = registerDto.AddressTitle,
+                City = registerDto.City,
+                District = registerDto.District,
+                Neighbourhood = registerDto.Neighbourhood,
+                PhoneNumber = registerDto.PhoneNumber
             };
             var result = await _userManager.CreateAsync(values, registerDto.Password);
             if (result.Succeeded)

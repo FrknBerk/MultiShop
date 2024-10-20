@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MultiShop.DtoLayer.IdentityDtos.UserDtos
+namespace MultiShop.IdentityServer.Dtos
 {
-    public class ResultUserDto
+    public class UserUpdateDto
     {
         public string Name { get; set; }
         public string Surname { get; set; }

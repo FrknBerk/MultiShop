@@ -37,6 +37,7 @@ namespace MultiShop.IdentityServer
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+            //services.AddIdentity<UserAddress, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             var builder = services.AddIdentityServer(options =>
             {

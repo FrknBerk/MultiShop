@@ -3,12 +3,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MultiShop.IdentityServer.Dtos;
 using MultiShop.IdentityServer.Models;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using static IdentityServer4.IdentityServerConstants;
+using static IdentityServer4.Models.IdentityResources;
 
 namespace MultiShop.IdentityServer.Controllers
 {
@@ -44,6 +47,41 @@ namespace MultiShop.IdentityServer.Controllers
         {
             var users = await _userManager.Users.ToListAsync();
             return Ok(users);
+        }
+
+        [HttpGet("GetByIdUser")]
+        public async Task<IActionResult> GetByIdUser(string id)
+        {
+            var user = await _userManager.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
+            return Ok(user);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UserUpdate(UserUpdateDto userUpdateDto)
+        {
+            var user = await _userManager.FindByIdAsync(userUpdateDto.Id);
+            if (user == null)
+                return Ok("Kullanıcı bulunamadı");
+            user.UserName = userUpdateDto.UserName;
+            user.PhoneNumber = userUpdateDto.PhoneNumber;
+            user.Email = userUpdateDto.Email;
+            user.Surname = userUpdateDto.Surname;
+            user.AddressDescription = userUpdateDto.AddressDescription;
+            user.AddressTitle = userUpdateDto.AddressTitle;
+            user.Birthday = userUpdateDto.Birthday;
+            user.City = userUpdateDto.City;
+            user.District = userUpdateDto.District;
+            user.Name = userUpdateDto.Name;
+            user.Neighbourhood = userUpdateDto.Neighbourhood;
+            var result = await _userManager.UpdateAsync(user);
+            if(result.Succeeded)
+            {
+                return Ok("başarıyla güncellendi");
+            }
+            else
+            {
+                return Ok("Kullanıcı güncellenemedi");
+            }
         }
     }
 }
