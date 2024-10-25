@@ -11,6 +11,7 @@
         public DateTime CreatedDate { get; set; }
         public bool Status { get; set; }
         public string ProductId { get; set; }
+        public string UserId { get; set; }
 
     }
 }

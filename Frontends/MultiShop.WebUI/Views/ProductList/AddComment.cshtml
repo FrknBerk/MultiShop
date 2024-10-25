@@ -1,36 +1,59 @@
-﻿
+﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <div class="col-md-6">
     <h4 class="mb-4">Yorum Yap</h4>
-    <small>Yorumunuz geçerli olması için geçerli e-mail adresi giriniz...</small>
-    <div class="d-flex my-3">
-        <p class="mb-0 mr-2">Ürün Puanınız * :</p>
-        @* <div class="text-primary">
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-        </div> *@
+    <input type="hidden" id="productId" name="ProductId" value="@ViewBag.x" />
+    <div class="form-group">
+        <div class="rating" id="productRating">
+            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+        </div>
     </div>
-    <form method="post" asp-action="AddComment" asp-controller="ProductList">
-        <input type="hidden" name="ProductId" value="@ViewBag.x"/>
-        <div class="form-group">
-            <label for="name">Ad Soyad *</label>
-            <input type="text" class="form-control" id="name" name="NameSurname">
-        </div>
-        <div class="form-group">
-            <label for="email">Email *</label>
-            <input type="email" class="form-control" id="email" name="Email">
-        </div>
-        <div class="form-group">
-            <label for="message">Yorumunuz *</label>
-            <textarea id="message" cols="30" rows="5" class="form-control" name="CommentDetail"></textarea>
-        </div>
-        <div class="form-group mb-0">
-            <input type="submit" value="Yorum Yap" class="btn btn-primary px-3">
-        </div>
-      @*   <div>
-            <input type="radio"/>
-        </div> *@
-    </form>
+    <div class="form-group">
+        <label for="message">Yorumunuz *</label>
+        <textarea id="message" cols="30" rows="5" class="form-control" name="CommentDetail"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="email">Resim </label>
+        <input type="text" class="form-control" id="imageUrl" name="ImageUrl">
+    </div>
+    <div class="form-group mb-0">
+        <input id="CreateComment" value="Yorum Yap" type="button" class="btn btn-primary px-3" />
+    </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $("#CreateComment").click(function () {
+            var rating;
+            var checkRating = document.getElementsByName('rating');
+            for (i = 0; i < checkRating.length; i++) {
+                if (checkRating[i].checked)
+                    rating= checkRating[i].value;
+            }
+
+            var imageUrl = $('#imageUrl').val();
+            var commentDetail = $('#message').val();
+            var productId = $('#productId').val();
+            var createCommentDto = {
+                CommentDetail: commentDetail,
+                ImageUrl: imageUrl,
+                ProductId: productId,
+                Rating: rating,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/ProductList/AddComment",
+                data: { createCommentDto: createCommentDto },
+                success: function (response) {
+                    window.location.reload();
+                },
+                Error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>

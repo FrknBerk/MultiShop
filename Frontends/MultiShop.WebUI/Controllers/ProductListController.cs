@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.CommentDtos;
+using MultiShop.WebUI.Services.CommentServices;
+using MultiShop.WebUI.Services.Interface;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -8,10 +10,14 @@ namespace MultiShop.WebUI.Controllers
     public class ProductListController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IUserService _userService;
+        private readonly ICommentService _commentService;
 
-        public ProductListController(IHttpClientFactory httpClientFactory)
+        public ProductListController(IHttpClientFactory httpClientFactory, IUserService userService, ICommentService commentService)
         {
             _httpClientFactory = httpClientFactory;
+            _userService = userService;
+            _commentService = commentService;
         }
         public IActionResult Index(string id)
         {
@@ -37,22 +43,18 @@ namespace MultiShop.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddComment(CreateCommentDto createCommentDto)
+        public async Task<PartialViewResult> AddComment(CreateCommentDto createCommentDto)
         {
-            createCommentDto.ImageUrl = "test";
+            var user = await _userService.GetUserInfo();
             if (createCommentDto.Rating <= 0)
                 createCommentDto.Rating = 0;
             createCommentDto.CreatedDate = DateTime.Parse(DateTime.Now.ToString());
             createCommentDto.Status = false;
-            var client = _httpClientFactory.CreateClient();
-            var jsonData = JsonConvert.SerializeObject(createCommentDto);
-            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7063/api/Comments", stringContent);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index", "Default", new { area = "Admin" });
-            }
-            return View();
+            createCommentDto.UserId = user.Id;
+            createCommentDto.NameSurname = user.Name + " " + user.SurName;
+            createCommentDto.Email = user.Email;
+            await _commentService.CreateCommentAsync(createCommentDto);            
+            return PartialView("AddComment");
         }
     }
 }

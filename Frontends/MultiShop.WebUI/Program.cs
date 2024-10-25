@@ -225,6 +225,7 @@ builder.Services.AddHttpClient<ISignalRMessageService, SignalRMessageService>(op
     opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Message.Path}");
 }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
