@@ -1,8 +1,7 @@
-﻿@model List<UpdateCommentDto>
+﻿@model List<ResultContactDto>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
-    int count = 0;
 }
 
 <section class="content container-fluid">
@@ -13,29 +12,26 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Kullanıcı</th>
-                                <th>Yorum Detayı</th>
-                                <th>Tarih</th>
-                                <th>Durum</th>
+                                <th>Ad Soyad</th>
+                                <th>Email</th>
+                                <th>Başlık</th>
+                                <th>Mesaj</th>
+                                <th>Gönderim Tarihi</th>
                                 <th>Sil</th>
-                                <th>Güncelle</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if (Model != null)
                             {
-                                foreach (var item in Model)
+                                @foreach (var item in Model)
                                 {
-                                    count++;
                                     <tr>
-                                        <th scope="row">@count</th>
                                         <td>@item.NameSurname</td>
-                                        <td>@item.CommentDetail</td>
-                                        <td>@item.CreatedDate.ToShortDateString()</td>
-                                        <td>@item.Status</td>
-                                        <td><a href="/Admin/Comment/DeleteComment/@item.UserCommentId" class="btn btn-warning">Sil</a></td>
-                                        <td><a href="/Admin/Comment/UpdateComment/@item.UserCommentId" class="btn btn-success">Güncelle</a></td>
+                                        <td>@item.Email</td>
+                                        <td>@item.Subject</td>
+                                        <td>@item.Message</td>
+                                        <td>@item.SendDate.ToShortDateString()</td>
+                                        <td><a href="/Admin/Contact/DeleteContact/@item.ContactId" class="btn btn-warning"><i class="fas fa-trash-alt"></i></a></td>
                                     </tr>
                                 }
                             }

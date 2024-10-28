@@ -18,11 +18,15 @@ namespace MultiShop.WebUI.Areas.Admin.ViewComponents.AdminLayoutViewComponents
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string id) 
+        
         {
             var user =await _userService.GetUserInfo();
             int messageCount = await _messageService.GetTotalMessageCountByReceiverId(user.Id);
             var getCommentCount = await _commentStatisticService.GetTotalCommentCount();
-            ViewBag.MessageCount = messageCount;
+            ViewBag.NameSurname = user.Name + " " + user.SurName;
+            ViewBag.Email = user.Email;
+            ViewBag.Title = user.Name.Substring(0,1) + user.SurName.Substring(0,1);
+            ViewBag.MessageCount = messageCount; 
             ViewBag.GetCommentCount = getCommentCount;
             return View(); 
         }

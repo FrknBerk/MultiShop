@@ -37,9 +37,30 @@ namespace MultiShop.WebUI.Services.CatalogServices.ContactServices
             return values;
         }
 
+        public async Task<List<ResultContactDto>> GetFalseContactAsync()
+        {
+            var responseMessage = await _httpClient.GetAsync("contacts/GetFalseContactList");
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            var values = JsonConvert.DeserializeObject<List<ResultContactDto>>(jsonData);
+            return values;
+        }
+
+        public async Task<int> GetFalseContactCountAsync()
+        {
+            var responseMessage = await _httpClient.GetAsync("contacts/GetFalseContactCount");
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            var values = JsonConvert.DeserializeObject<int>(jsonData);
+            return values;
+        }
+
         public async Task UpdateContactAsync(UpdateContactDto ContactDto)
         {
             await _httpClient.PutAsJsonAsync<UpdateContactDto>("contacts", ContactDto);
+        }
+
+        public async Task UpdateFalseContactAsync(string id)
+        {
+            await _httpClient.GetAsync("contacts/UpdateFalseContact?id="  + id);
         }
     }
 }

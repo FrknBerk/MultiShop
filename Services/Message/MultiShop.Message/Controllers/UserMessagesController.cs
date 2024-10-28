@@ -73,5 +73,12 @@ namespace MultiShop.Message.Controllers
             var values = await _userMessageService.GetTotalMessageCountByReceiverId(id);
             return Ok(values);
         }
+        
+        [HttpGet("GetFalseMessageCount")]
+        public async Task<IActionResult> GetFalseMessageCountAsync()
+        {
+            var values = await _userMessageService.GetFalseMessageCountAsync();
+            return Ok(values);
+        }
     }
 }

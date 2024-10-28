@@ -1,6 +1,6 @@
-﻿@model List<UpdateCommentDto>
+﻿@model List<ResultRoleDto>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "RoleList";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
     int count = 0;
 }
@@ -14,10 +14,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Kullanıcı</th>
-                                <th>Yorum Detayı</th>
-                                <th>Tarih</th>
-                                <th>Durum</th>
+                                <th>Role Adı</th>
                                 <th>Sil</th>
                                 <th>Güncelle</th>
                             </tr>
@@ -30,17 +27,15 @@
                                     count++;
                                     <tr>
                                         <th scope="row">@count</th>
-                                        <td>@item.NameSurname</td>
-                                        <td>@item.CommentDetail</td>
-                                        <td>@item.CreatedDate.ToShortDateString()</td>
-                                        <td>@item.Status</td>
-                                        <td><a href="/Admin/Comment/DeleteComment/@item.UserCommentId" class="btn btn-warning">Sil</a></td>
-                                        <td><a href="/Admin/Comment/UpdateComment/@item.UserCommentId" class="btn btn-success">Güncelle</a></td>
+                                        <td>@item.Name</td>
+                                        <td><a href="/Admin/Role/DeleteRole/@item.Id" class="btn btn-warning">Sil</a></td>
+                                        <td><a href="/Admin/Role/UpdateRole/@item.Id" class="btn btn-success">Güncelle</a></td>
                                     </tr>
                                 }
                             }
                         </tbody>
                     </table>
+                    <a href="/Admin/Role/CreateRole/" class="btn btn-primary">Yeni Role girişi</a>
                 </div>
             </div>
         </div>

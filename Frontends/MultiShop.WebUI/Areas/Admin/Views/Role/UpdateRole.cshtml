@@ -1,0 +1,26 @@
+﻿@model UpdateRoleDto
+@{
+    ViewData["Title"] = "UpdateRole";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <div class="bs-example" data-example-id="bordered-table">
+                    <form method="post">
+                        <input type="hidden" class="form-control" asp-for="Id" placeholder="Id" readonly />
+                        <input type="hidden" class="form-control" asp-for="ConcurrencyStamp" placeholder="ConcurrencyStamp" readonly />
+                        <br />
+                        <label>Role Adı</label>
+                        <input type="text" class="form-control" asp-for="Name" placeholder="Role Adı Giriniz..." />
+                        <br />
+                        <button class="btn btn-warning">Role Güncelle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

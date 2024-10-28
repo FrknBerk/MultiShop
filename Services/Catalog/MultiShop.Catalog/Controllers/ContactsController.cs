@@ -25,12 +25,34 @@ namespace MultiShop.Catalog.Controllers
             return Ok(values);
         }
 
+        [HttpGet("GetFalseContactList")]
+        public async Task<IActionResult> GetFalseContactList()
+        {
+            var values = await _contactService.GetFalseContactAsync();
+            return Ok(values);
+        }
+
+        [HttpGet("GetFalseContactCount")]
+        public async Task<IActionResult> GetFalseContactCount()
+        {
+            var values = await _contactService.GetFalseContactCount();
+            return Ok(values);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetContactById(string id)
         {
             var values = await _contactService.GetByIdContactAsync(id);
             return Ok(values);
         }
+        
+        [HttpGet("UpdateFalseContact")]
+        public async Task<IActionResult> UpdateFalseContactAsync(string id)
+        {
+            await _contactService.UpdateFalseContactAsync(id);
+            return Ok("Güncelleme işlemi başarılı");
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> CreateContact(CreateContactDto createContactDto)

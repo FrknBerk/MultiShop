@@ -21,6 +21,7 @@ using MultiShop.WebUI.Services.CatalogServices.SpecialOfferServices;
 using MultiShop.WebUI.Services.CommentServices;
 using MultiShop.WebUI.Services.Concrete;
 using MultiShop.WebUI.Services.DiscountServices;
+using MultiShop.WebUI.Services.IdentityServices.RoleIdentityServices;
 using MultiShop.WebUI.Services.IdentityServices.UserIdentityServices;
 using MultiShop.WebUI.Services.Interface;
 using MultiShop.WebUI.Services.MessageServices;
@@ -176,6 +177,11 @@ builder.Services.AddHttpClient<IMessageService, MessageService>(opt =>
 }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
 builder.Services.AddHttpClient<IUserIdentityService, UserIdentityService>(opt =>
+{
+    opt.BaseAddress = new Uri($"{values.IdentityServerUrl}");
+}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+builder.Services.AddHttpClient<IRoleIdentityService, RoleIdentityService>(opt =>
 {
     opt.BaseAddress = new Uri($"{values.IdentityServerUrl}");
 }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();

@@ -43,10 +43,29 @@ namespace MultiShop.Catalog.Services.ContactServices
             return _mapper.Map<GetByIdContactDto>(values);
         }
 
+        public async Task<List<ResultContactDto>> GetFalseContactAsync()
+        {
+            var values = await _contactCollection.Find(x => x.IsRead == false).ToListAsync();
+            return _mapper.Map<List<ResultContactDto>>(values);
+        }
+
+        public async Task<int> GetFalseContactCount()
+        {
+            var values = await _contactCollection.Find(x => x.IsRead == false).CountAsync();
+            return _mapper.Map<int>(values);
+        }
+
         public async Task UpdateContactAsync(UpdateContactDto updateContactDto)
         {
             var values = _mapper.Map<Contact>(updateContactDto);
             await _contactCollection.FindOneAndReplaceAsync(x => x.ContactId == updateContactDto.ContactId, values);
+        }
+
+        public async Task UpdateFalseContactAsync(string id)
+        {
+            var values = await _contactCollection.Find<Contact>(x => x.ContactId == id).FirstOrDefaultAsync();
+            values.IsRead = true;
+            await _contactCollection.FindOneAndReplaceAsync(x => x.ContactId == id, values);
         }
     }
 }

@@ -1,0 +1,39 @@
+﻿@model GetByIdContactDto
+@{
+    ViewData["Title"] = "ContactDetail";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <div class="bs-example" data-example-id="bordered-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Ad Soyad</th>
+                                <th>Email</th>
+                                <th>Başlık</th>
+                                <th>Mesaj</th>
+                                <th>Gönderim Tarihi</th>
+                                <th>Sil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@Model.NameSurname</td>
+                                <td>@Model.Email</td>
+                                <td>@Model.Subject</td>
+                                <td>@Model.Message</td>
+                                <td>@Model.SendDate.ToShortDateString()</td>
+                                <td><a href="/Admin/Contact/DeleteContact/@Model.ContactId" class="btn btn-warning"><i class="fas fa-trash-alt"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

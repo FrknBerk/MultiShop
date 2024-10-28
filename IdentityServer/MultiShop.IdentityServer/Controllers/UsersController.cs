@@ -11,7 +11,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using static IdentityServer4.IdentityServerConstants;
-using static IdentityServer4.Models.IdentityResources;
 
 namespace MultiShop.IdentityServer.Controllers
 {

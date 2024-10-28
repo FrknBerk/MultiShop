@@ -40,9 +40,9 @@ namespace MultiShop.Comment.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateComment(UserComment userComment)
+        public IActionResult UpdateComment(UpdateUserCommentDto updateCommentDto)
         {
-            _commentContext.Update(userComment);
+            _commentContext.Update(_mapper.Map<UserComment>(updateCommentDto));
             _commentContext.SaveChanges();
             return Ok("Yorum Başarıyla güncellendi");
         }
@@ -88,6 +88,19 @@ namespace MultiShop.Comment.Controllers
         public IActionResult GetTotalCommentCount()
         {
             int values = _commentContext.UserComments.Count();
+            return Ok(values);
+        }
+
+        [HttpGet("UnconfirmedProductComment")]
+        public IActionResult UnconfirmedProductComment()
+        {
+            var values = _commentContext.UserComments.Where(x => x.Status == false).ToList();
+            return Ok(values);
+        }
+        [HttpGet("UnconfirmedProductCommentCount")]
+        public IActionResult UnconfirmedProductCommentCount()
+        {
+            var values = _commentContext.UserComments.Where(x => x.Status == false).Count();
             return Ok(values);
         }
     }

@@ -12,6 +12,7 @@
                     <form method="post">
                         <input type="hidden" class="form-control" asp-for="UserCommentId" readonly />
                         <input type="hidden" class="form-control" asp-for="ProductId" readonly />
+                        <input type="hidden" class="form-control" asp-for="UserId" readonly />
                         <br />
                         <label>Kullanıcı Adı Soyadı</label>
                         <input type="text" class="form-control" asp-for="NameSurname" placeholder="Kullanıcı Adı Soyadı..." />
@@ -32,6 +33,7 @@
                         <textarea rows="3" class="form-control" asp-for="CommentDetail"><</textarea>
                         <br />
                         <button class="btn btn-success">Yorumu Güncelle</button>
+                        <a href="/Admin/Comment/DeleteComment/@Model.UserCommentId" class="btn btn-warning">Sil</a>
                     </form>
                 </div>
             </div>

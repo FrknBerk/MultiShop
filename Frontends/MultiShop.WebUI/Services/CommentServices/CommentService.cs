@@ -1,5 +1,6 @@
 ﻿using MultiShop.DtoLayer.CommentDtos;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace MultiShop.WebUI.Services.CommentServices
 {
@@ -45,8 +46,27 @@ namespace MultiShop.WebUI.Services.CommentServices
             return values;
         }
 
+        public async Task<List<ResultCommentDto>> UnconfirmedProductCommentAsync()
+        {
+            var responseMessage = await _httpClient.GetAsync("comments/UnconfirmedProductComment");
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            var values = JsonConvert.DeserializeObject<List<ResultCommentDto>>(jsonData);
+            return values;
+        }
+
+        public async Task<int> UnconfirmedProductCommentCountAsync()
+        {
+            var responseMessage = await _httpClient.GetAsync("comments/UnconfirmedProductCommentCount");
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            var values = JsonConvert.DeserializeObject<int>(jsonData);
+            return values;
+        }
+
         public async Task UpdateCommentAsync(UpdateCommentDto updateCommentDto)
         {
+            var jsonData = JsonConvert.SerializeObject(updateCommentDto);
+            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            //await _httpClient.PutAsync("comments", stringContent);
             await _httpClient.PutAsJsonAsync<UpdateCommentDto>("comments", updateCommentDto);
         }
 

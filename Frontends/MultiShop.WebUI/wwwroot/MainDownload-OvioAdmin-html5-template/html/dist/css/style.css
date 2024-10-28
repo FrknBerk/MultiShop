@@ -1955,7 +1955,9 @@ iframe {
 }
 .navbar-nav > .user-menu > .dropdown-menu > li.user-header > .user-img {
 	width: 80px;
-	margin-right: 10px;
+	margin-right: 0px !important;
+	margin-top: 5px !important;
+	font-size: 20px !important;
 }
 .navbar-nav > .user-menu > .dropdown-menu > li.user-header > .user-img img {
 	border-radius: 4px;
