@@ -1,0 +1,119 @@
+﻿@model CreateUserRoleDto
+@{
+    ViewData["Title"] = "UserRoleCreate";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <div class="row">
+                    <div class="col-md-4">
+                        <fieldset class="form-group">
+                            <label>Ad Soyad</label>
+                            <p class="form-control-static m-bot-1" id="NameSurname"></p>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                        <fieldset class="form-group">
+                            <label>Email</label>
+                            <p class="form-control-static m-bot-1" id="Email"></p>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                        <fieldset class="form-group">
+                            <label>Kullanıcı Adı</label>
+                            <p class="form-control-static m-bot-1" id="Username"></p>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                        <fieldset class="form-group">
+                            <label>Ürün Kategorisi</label>
+                            @Html.DropDownListFor(x => x.RoleId, (List<SelectListItem>)ViewBag.RoleValues, new { @class = "form-control dropdownform" })
+                        </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                        <fieldset class="form-group">
+                            <label>Disabled Input</label>
+                            <input class="form-control" id="disabledInput" disabled="" type="text">
+                        </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                        <fieldset class="form-group">
+                            <input class="form-control" id="Id" value="@ViewBag.Id" type="hidden">
+                        </fieldset>
+                    </div>
+                    <input id="CreateUserRole" value="Kullanıcı Role Ekle" type="button" class="btn btn-primary px-3" />
+                    <input id="DeleteUserRole" value="Kullanıcı Role Sil" type="button" class="btn btn-warning px-3" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () { 
+        var Id = $("#Id").val();
+        console.log(Id);
+        var url = "@Url.Action("GetByIdUser", "User", new { Area = "Admin" })";
+        console.log(url);
+        $.ajax({
+            url: '@Url.Action("GetByIdUser", "User")/' + Id,
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                $("#NameSurname").html(data.name + " " + data.surname);
+                $("#Email").html(data.email);
+                $("#Username").html(data.userName);
+            },
+            error: function (error, ajaxOptions, thrownError) {
+                console.log(error);
+            }
+        });
+    });
+    $(document).ready(function () {
+        $("#CreateUserRole").click(function () {
+            console.log("Tıklama işlemi yapıldı");
+
+            var userId = $('#Id').val();
+            var roleId = $('#RoleId').val();
+            var createUserRoleDto = {
+                UserId: userId,
+                RoleId: roleId,
+            };
+            var url = "https://localhost:7080/Admin/Role/UserRoleCreate/" + roleId;
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { createUserRoleDto: createUserRoleDto },
+                success: function (response) {
+                },
+                Error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+
+        $("#DeleteUserRole").click(function () {
+            var userId = $('#Id').val();
+            var roleId = $('#RoleId').val();
+            var createUserRoleDto = {
+                UserId : userId,
+                RoleId : roleId,
+            };
+            var url = "https://localhost:7080/Admin/Role/UserRoleDelete/" + roleId;
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { createUserRoleDto: createUserRoleDto },
+                success: function (response) {
+                },
+                Error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>

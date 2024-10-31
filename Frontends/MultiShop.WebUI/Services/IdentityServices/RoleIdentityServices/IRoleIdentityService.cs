@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.IdentityDtos.RoleDtos;
+using MultiShop.DtoLayer.IdentityDtos.UserRoleDtos;
 
 namespace MultiShop.WebUI.Services.IdentityServices.RoleIdentityServices
 {
@@ -10,5 +11,7 @@ namespace MultiShop.WebUI.Services.IdentityServices.RoleIdentityServices
         Task<bool> UpdateRoleAsync(UpdateRoleDto updateRoleDto);
         Task<bool> DeleteRoleAsync(UpdateRoleDto updateRoleDto);
         Task<UpdateRoleDto> GetByIdRoleAsync(string id);
+        Task<CreateUserRoleDto> CreateUserRoleAsync(CreateUserRoleDto createUserRoleDto);
+        Task<bool> DeleteUserRoleAsync(CreateUserRoleDto createUserRoleDto);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver.Core.WireProtocol.Messages;
 using MultiShop.DtoLayer.IdentityDtos.RoleDtos;
 using MultiShop.DtoLayer.IdentityDtos.UserDtos;
+using MultiShop.DtoLayer.IdentityDtos.UserRoleDtos;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
 
@@ -24,9 +26,33 @@ namespace MultiShop.WebUI.Services.IdentityServices.RoleIdentityServices
                 return false;
         }
 
+        public async Task<CreateUserRoleDto> CreateUserRoleAsync(CreateUserRoleDto createUserRoleDto)
+        {
+            var result = await _httpClient.PostAsJsonAsync<CreateUserRoleDto>("api/Roles/CreateUserRole", createUserRoleDto);
+            if (result.IsSuccessStatusCode == true)
+            {
+                var jsonData = await result.Content.ReadAsStringAsync();
+                var values = JsonConvert.DeserializeObject<CreateUserRoleDto>(jsonData);
+                return values;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public async Task<bool> DeleteRoleAsync(UpdateRoleDto updateRoleDto)
         {
             var result = await _httpClient.PostAsJsonAsync<UpdateRoleDto>("api/Roles/DeleteRole",updateRoleDto);
+            if (result.IsSuccessStatusCode == true)
+                return true;
+            else
+                return false;
+        }
+
+        public async Task<bool> DeleteUserRoleAsync(CreateUserRoleDto createUserRoleDto)
+        {
+            var result = await _httpClient.PostAsJsonAsync<CreateUserRoleDto>("api/Roles/DeleteUserRole", createUserRoleDto);
             if (result.IsSuccessStatusCode == true)
                 return true;
             else

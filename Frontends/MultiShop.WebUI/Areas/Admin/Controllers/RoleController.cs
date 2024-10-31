@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MultiShop.DtoLayer.IdentityDtos.RoleDtos;
+using MultiShop.DtoLayer.IdentityDtos.UserRoleDtos;
 using MultiShop.WebUI.Services.IdentityServices.RoleIdentityServices;
 
 namespace MultiShop.WebUI.Areas.Admin.Controllers
@@ -68,6 +70,47 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
                 return RedirectToAction("RoleList", "Role", new { area = "Admin" });
             else
                 return View();
+        }
+
+        [Route("UserRoleCreate/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> UserRoleCreate(string id)
+        {
+            ViewBag.Id = id;
+            var values = await _roleIdentityService.GetRolesAsync();
+            List<SelectListItem> roleValues = (from x in values
+                                                   select new SelectListItem
+                                                   {
+                                                       Text = x.Name,
+                                                       Value = x.Id
+                                                   }).ToList();
+            ViewBag.RoleValues = roleValues;
+            var userRole = new CreateUserRoleDto
+            {
+                UserId = id
+            };
+            var createUserRoleDto = await _roleIdentityService.CreateUserRoleAsync(userRole);
+            return View(createUserRoleDto);
+        }
+
+        [Route("UserRoleCreate/{id}")]
+        [HttpPost]
+        public async Task<IActionResult> UserRoleCreate(CreateUserRoleDto createUserRoleDto)
+        {
+            var result = await _roleIdentityService.CreateUserRoleAsync(createUserRoleDto);
+            return RedirectToAction("UserList","User", new { area = "Admin" });
+        }
+
+        [Route("UserRoleDelete/{id}")]
+        [HttpPost]
+        public async Task<IActionResult> UserRoleDelete(CreateUserRoleDto createUserRoleDto)
+        {
+            var result = await _roleIdentityService.DeleteUserRoleAsync(createUserRoleDto);
+            if (result)
+            {
+                return RedirectToAction("UserList", "User", new { area = "Admin" });
+            }
+            return View();
         }
     }
 }

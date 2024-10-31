@@ -17,8 +17,9 @@
                                 <th>Ad Soyad</th>
                                 <th>Kullanıcı Adı</th>
                                 <th>Email</th>
+                                <th>Rolü</th>
                                 <th>Adres Detayı</th>
-                                <th>Rol Ekle</th>
+                                <th>Rol <span class="success">Ekle</span> - <span class="danger">Sil</span></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,8 +33,23 @@
                                         <td>@item.Name @item.Surname</td>
                                         <td>@item.UserName</td>
                                         <td>@item.Email</td>
+                                        @if (item.ExistUserRole == true)
+                                        {
+                                            <td><i class="fas fa-check success"></i></td>
+                                        }
+                                        else
+                                        {
+                                            <td><i class="fas fa-times danger"></i></td>
+                                        }
                                         <td><a href="/Admin/User/UserAddressInfo/@item.Id" class="btn btn-success">Adres Detayı</a></td>
-                                        <td><a href="" class="btn btn-success">Rol Ekle</a></td>
+                                        @if(item.ExistUserRole == false)
+                                        {
+                                            <td><a href="/Admin/Role/UserRoleCreate/@item.Id" class="btn btn-warning">Rol Ekle</a></td>
+                                        }
+                                        else
+                                        {
+                                            <td><a href="/Admin/Role/UserRoleCreate/@item.Id" class="btn btn-danger">Rol Sil</a></td>
+                                        }
                                     </tr>
                                 }
                             }

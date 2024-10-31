@@ -14,5 +14,6 @@ namespace MultiShop.IdentityServer.Models
         public string District { get; set; }
         public string Neighbourhood { get; set; }
         public string AddressDescription { get; set; }
+        public bool ExistUserRole { get; set; }
     }
 }
