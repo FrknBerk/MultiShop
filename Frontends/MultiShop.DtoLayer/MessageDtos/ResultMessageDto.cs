@@ -1,8 +1,13 @@
-﻿namespace MultiShop.Message.Dtos
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MultiShop.DtoLayer.MessageDtos
 {
-    public class ResultSendboxMessageDto
+    public class ResultMessageDto
     {
-        //Giden Kutusu
         public int UserMessageId { get; set; }
         public string SendedId { get; set; }
         public string ReceiverId { get; set; }

@@ -1,0 +1,53 @@
+﻿@model CreateUserMessageDto
+@{
+    ViewData["Title"] = "AnswerMessage";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<div class="chat-container">
+    <div class="chat-header">
+        Mesajlaşma
+    </div>
+    <div class="chat-messages">
+        
+    </div>
+    <div class="chat-footer">
+        <form method="post">
+            <input type="hidden" asp-for="ReceiverId" value="@ViewBag.SendId" />
+            <input type="hidden" asp-for="UserMessageId" value="@ViewBag.UserMessageId"/>
+            <input id="messageSubject" asp-for="Subject" type="text" placeholder="Konu yazın...">
+            <br />
+            <textarea class="chat-footer-textarea" id="messageDescription" asp-for="MessageDetail" rows="5" placeholder="Mesajınızı yazın..."></textarea>
+            <br />
+            <button>Gönder</button>
+        </form>
+    </div>
+</div>
+<script>
+    $(function () {
+        LoadData();
+    });
+
+    function LoadData() {
+        $.ajax({
+            type: 'GET',
+            url: '/Admin/Message/GetAdminMessageList/' ,
+            dataType: 'json',
+            data: { id: '@ViewBag.SendId' },
+            success: function (data) {
+                var items = '';
+                $.each(data.reverse(), function (i, item) {
+                    var value = "";
+                    if (item.sendedId == '@ViewBag.SendId') {
+                        value += "<div class='message received'>" + item.messageDetail + "</div>";
+                    }
+                    if (item.sendedId == '@ViewBag.AdminUserId' && item.receiverId == '@ViewBag.SendId') {
+                        value += "<div class='message sent'>" + item.messageDetail + "</div > ";
+                    }
+                    $('.chat-messages').append(value);
+                });
+            },
+        });
+    }
+</script>

@@ -10,5 +10,6 @@
         public string MessageDetail { get; set; }
         public bool IsRead { get; set; }
         public DateTime MessageDate { get; set; }
+        public string AnsweredIf { get; set; }
     }
 }

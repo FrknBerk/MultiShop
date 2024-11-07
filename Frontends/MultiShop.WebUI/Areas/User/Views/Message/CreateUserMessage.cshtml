@@ -1,0 +1,49 @@
+﻿@model CreateUserMessageDto
+@{
+    ViewData["Title"] = "CreateUserMessage";
+    Layout = "~/Views/UILayout/_UILayout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<div class="chat-container">
+    <div class="chat-header">
+        Mesajlaşma
+    </div>
+    <div class="chat-messages">
+
+    </div>
+    <div class="chat-footer">
+        <form method="post">
+            <input id="messageSubject" asp-for="Subject" type="text" placeholder="Konu yazın...">
+            <br />
+            <textarea class="chat-footer-textarea" id="messageDescription" asp-for="MessageDetail" rows="5" placeholder="Mesajınızı yazın..."></textarea>
+            <br />
+            <button>Gönder</button>
+        </form>
+    </div>
+</div>
+<script>
+    $(function () {
+        LoadData();
+    });
+    function LoadData() {
+        $.ajax({
+            type: 'GET',
+            url: '/User/Message/GetUserMessageList/',
+            dataType: 'json',
+            success: function (data) {
+                var items = '';
+                $.each(data.reverse(), function (i, item) {
+                    var value = "";
+                    if (item.sendedId == '@ViewBag.UserId') {
+                        value += "<div class='message sent'>" + item.messageDetail + "</div > ";
+                    }
+                    if (item.receiverId == '@ViewBag.UserId' && item.sendedId == '@ViewBag.AdminUserId') {
+                        value += "<div class='message received'>" + item.messageDetail + "</div>";
+                    }
+                    $('.chat-messages').append(value);
+                });
+            },
+        });
+    }
+</script>
+

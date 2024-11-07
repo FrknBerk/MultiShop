@@ -49,8 +49,9 @@ namespace MultiShop.Message.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteMessageAsync(int id)
         {
-            await _userMessageService.DeleteMessageCouponAsync(id);
-            return Ok("Mesaj başarıyla silindi");
+            var result = await _userMessageService.DeleteMessageAsync(id);
+            if (result) return Ok(true);
+            else return BadRequest(false);
         }
 
         [HttpPut]
@@ -79,6 +80,43 @@ namespace MultiShop.Message.Controllers
         {
             var values = await _userMessageService.GetFalseMessageCountAsync();
             return Ok(values);
+        }
+        
+        [HttpGet("GetByIdSendId/{id}")]
+        public async Task<IActionResult> GetByIdSendIdAsync(string id)
+        {
+            var values = await _userMessageService.GetByIdSendIdAsync(id);
+            return Ok(values);
+        }
+        
+        [HttpGet("GetAdminMessageList/{id}")]
+        public async Task<IActionResult> GetAdminMessageListAsync(string id)
+        {
+            var values = await _userMessageService.GetAdminMessageListAsync(id);
+            return Ok(values);
+        }
+        
+        [HttpGet("GetAdminUnReadMessageTotalCount/{id}")]
+        public async Task<IActionResult> GetAdminUnReadMessageTotalCountAsync(string id)
+        {
+            var values = await _userMessageService.GetAdminUnReadMessageTotalCountAsync(id);
+            return Ok(values);
+        }
+        
+        [HttpGet("GetUnReadMessageList/{id}")]
+        public async Task<IActionResult> GetUnReadMessageListASync(string id)
+        {
+            var values = await _userMessageService.GetUnReadMessageList(id);
+            return Ok(values);
+        }
+        
+        [HttpGet("AdminAnswerUserMessageIdUpdateTrue/{id}")]
+        public async Task<IActionResult> AdminAnswerUserMessageIdUpdateTrueAsync(int id)
+        {
+            var values = await _userMessageService.AdminAnswerUserMessageIdUpdateTrue(id);
+            if (values)
+                return Ok(true);
+            return Ok(false);
         }
     }
 }

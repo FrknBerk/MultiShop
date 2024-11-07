@@ -1,5 +1,4 @@
-﻿
-@*
+﻿@*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
@@ -34,6 +33,9 @@
                 @await Component.InvokeAsync("_AdminContactMessageComponentPartial")
 
                 @await Component.InvokeAsync("_AdminProductCommentNotificationComponentPartial")
+
+                @await Component.InvokeAsync("_AdminUnReadMessageComponentPartial")
+
                 <!-- Tasks Menu -->
                 <!-- User Account Menu -->
                 <li class="dropdown user user-menu">

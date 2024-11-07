@@ -102,6 +102,13 @@ namespace MultiShop.IdentityServer.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetUsersInRole")]
+        public async Task<IActionResult> GetUsersInRoleAsync(string roleName)
+        {
+            var result = await _userManager.GetUsersInRoleAsync(roleName);
+            return Ok(result);
+        }
+
         [Route("CreateUserRole")]
         [HttpPost]
         public async Task<IActionResult> CreateUserRole(CreateUserRoleDto createUserRoleDto)
@@ -145,7 +152,7 @@ namespace MultiShop.IdentityServer.Controllers
         public async Task<IActionResult> DeleteUserRole(CreateUserRoleDto createUserRoleDto)
         {
             var user = await _userManager.Users.Where(x => x.Id == createUserRoleDto.UserId).FirstOrDefaultAsync();
-            user.ExistUserRole = true;
+            user.ExistUserRole = false;
             var role = await _roleManager.Roles.Where(x => x.Id == createUserRoleDto.RoleId).FirstOrDefaultAsync();
             var result = await _userManager.RemoveFromRoleAsync(user,role.Name);
             if (result.Succeeded)

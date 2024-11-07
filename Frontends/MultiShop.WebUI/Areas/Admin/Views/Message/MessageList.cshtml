@@ -1,0 +1,53 @@
+﻿@model List<ResultMessageDto>
+@{
+    ViewData["Title"] = "MessageList";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+    int count = 0;
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <div class="bs-example" data-example-id="bordered-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Konu</th>
+                                <th>Mesaj Detayı</th>
+                                <th>Cevaplandı/Cevaplanmadı</th>
+                                <th>Cevapla</th>
+                                <th>Sil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    count++;
+                                    <tr>
+                                        <th scope="row">@count</th>
+                                        <td>@item.Subject</td>
+                                        <td>@item.MessageDetail</td>
+                                        @if(item.IsRead){
+                                            <td><i class="fas fa-check success"></i></td>
+                                        }
+                                        else
+                                        {
+                                            <td><i class="fas fa-times danger"></i></td>
+                                        }
+                                        <td><a href="/Admin/Message/AnswerMessage/id=@item.SendedId?userMessageId=@item.UserMessageId" class="btn btn-success">Cevapla</a></td>
+                                        <td><a href="/Admin/Message/DeleteMessage/@item.UserMessageId" class="btn btn-warning">Sil</a></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
