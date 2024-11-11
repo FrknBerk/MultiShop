@@ -3,6 +3,7 @@ using MultiShop.Catalog.Dtos.AboutDtos;
 using MultiShop.Catalog.Dtos.BrandDtos;
 using MultiShop.Catalog.Dtos.CategoryDtos;
 using MultiShop.Catalog.Dtos.ContactDtos;
+using MultiShop.Catalog.Dtos.FavoriteProductDtos;
 using MultiShop.Catalog.Dtos.FeatureDtos;
 using MultiShop.Catalog.Dtos.FeatureSliderDtos;
 using MultiShop.Catalog.Dtos.OfferDiscountDtos;
@@ -74,6 +75,9 @@ namespace MultiShop.Catalog.Mapping
             CreateMap<Contact, CreateContactDto>().ReverseMap();
             CreateMap<Contact, UpdateContactDto>().ReverseMap();
             CreateMap<Contact, GetByIdContactDto>().ReverseMap();
+
+            CreateMap<FavoriteProduct,ResultFavoriteProductDto>().ReverseMap();
+            CreateMap<FavoriteProduct,CreateFavoriteProductDto>().ReverseMap();
         }
     }
 }

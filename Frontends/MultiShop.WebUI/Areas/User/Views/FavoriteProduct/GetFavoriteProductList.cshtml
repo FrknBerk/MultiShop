@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "GetFavoriteProductList";
+    Layout = "~/Views/UILayout/_UILayout.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col">
+            <div class="row pb-3" id="favoriteProduct">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        GetByUserIdFavoriteProduct();
+    });
+    function GetByUserIdFavoriteProduct() {
+        $.ajax({
+            type: 'GET',
+            url: '/User/FavoriteProduct/GetByUserIdFavoriteProductList/',
+            dataType: 'json',
+            success: function (data) {
+                var items = '';
+                console.log(data);
+                $.each(data, function (i, item) {
+                    var value = "";
+                    GetByProductIdProductDetail(item.productId,item.id)
+                });
+            },
+        });
+    }
+
+    function GetByProductIdProductDetail(productId,id) {
+        $.ajax({
+            type: 'GET',
+            url: '/User/Product/GetByProductId/',
+            dataType: 'json',
+            data: { productId: productId },
+            success: function (data) {
+                var items = '';
+                console.log(data);
+                var value = "<div class='col-lg-4 col-md-6 col-sm-6 pb-1'>" +
+                    "<div class='product-item bg-light mb-4'>" +
+                    "<div class='product-img position-relative overflow-hidden'>" +
+                    "<img class='img-fluid w-100' src='" + data.productImageUrl + "' alt='' style='height: 300px; height: 600px;'>" +
+                    "<div class='product-action'>" +
+                    "<a class='btn btn-outline-dark btn-square' href=''><i class='fa fa-shopping-cart'></i></a>" +
+                    "<a class='btn btn-outline-dark btn-square' href='/User/FavoriteProduct/DeleteFavoriteProduct/" + id + "'><i class='fas fa-trash-alt'></i></a>" +
+                    "<a class='btn btn-outline-dark btn-square' href='/ProductList/ProductDetail/"+ data.productId +"'><i class='fa fa-search'></i></a>" +
+                    "</div>" +
+                    "</div>" +
+                    "<div class='text-center py-4'>" +
+                    "<a class='h6 text-decoration-none text-truncate' href=''>" + data.productName + "</a>" +
+                    "<div class='d-flex align-items-center justify-content-center mt-2'>" +
+                    "<h5>" + data.productPrice + "₺</h5>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+                $('#favoriteProduct').append(value);
+            },
+        });
+    }
+</script>
