@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MultiShop.IdentityServer.Dtos
+namespace MultiShop.IdentityServer.Dtos.LoginDtos
 {
     public class UserRegisterDto
     {

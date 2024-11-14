@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MultiShop.IdentityServer.Dtos;
+using Microsoft.EntityFrameworkCore;
+using MultiShop.IdentityServer.Dtos.LoginDtos;
 using MultiShop.IdentityServer.Models;
 using MultiShop.IdentityServer.Tools;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,5 +59,25 @@ namespace MultiShop.IdentityServer.Controllers
                 return BadRequest("Kullanıcı adı ve şifre yanlış");
             }
         }
+
+		[Route("RefreshPassword")]
+		[HttpPost]
+		public async Task<IActionResult> RefreshPassword(RefreshPasswordDto refreshPasswordDto)
+		{
+			var user = await _userManager.Users.Where(x => x.Email == refreshPasswordDto.Email).FirstOrDefaultAsync();
+			var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+			var result =await _userManager.ResetPasswordAsync(user, token, refreshPasswordDto.NewPassword);
+			if (result.Succeeded)
+				return Ok(true);
+			return Ok(false);
+		}
+
+        [Route("GetByEmailUser")]
+        [HttpGet]
+        public async Task<IActionResult> GetByEmailUser(string email)
+		{
+			var user = await _userManager.Users.Where(x => x.Email == email).FirstOrDefaultAsync();
+			return Ok(user);
+		}
     }
 }

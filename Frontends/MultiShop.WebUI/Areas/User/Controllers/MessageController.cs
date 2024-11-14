@@ -36,6 +36,9 @@ namespace MultiShop.WebUI.Areas.User.Controllers
 
         public async Task<IActionResult> CreateUserMessage()
         {
+            ViewBag.directory1 = "Ana Sayfa";
+            ViewBag.directory2 = "Mesajlar";
+            ViewBag.directory3 = "Mesajlarım";
             var user = await _userService.GetUserInfo();
             var adminUser = await _roleIdentityService.GetUsersInRoleAsync("Admin");
             ViewBag.AdminUserId = adminUser.FirstOrDefault().Id;

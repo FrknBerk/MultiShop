@@ -25,6 +25,7 @@ using MultiShop.WebUI.Services.DiscountServices;
 using MultiShop.WebUI.Services.IdentityServices.RoleIdentityServices;
 using MultiShop.WebUI.Services.IdentityServices.UserIdentityServices;
 using MultiShop.WebUI.Services.Interface;
+using MultiShop.WebUI.Services.MailServices;
 using MultiShop.WebUI.Services.MessageServices;
 using MultiShop.WebUI.Services.OrderServices.OrderAddressServices;
 using MultiShop.WebUI.Services.OrderServices.OrderOrderingServices;
@@ -61,6 +62,7 @@ builder.Services.AddAccessTokenManagement();
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddScoped<ILoginService,LoginService>();
 builder.Services.AddHttpClient<IIdentityService,IdentityService>();
 

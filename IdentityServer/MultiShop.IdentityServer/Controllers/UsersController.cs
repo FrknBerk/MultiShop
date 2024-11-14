@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MultiShop.IdentityServer.Dtos;
+using MultiShop.IdentityServer.Dtos.LoginDtos;
 using MultiShop.IdentityServer.Models;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
