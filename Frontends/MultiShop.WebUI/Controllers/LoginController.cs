@@ -41,9 +41,17 @@ namespace MultiShop.WebUI.Controllers
 		{
 			bool loginIsTrue = await _identityService.SignIn(signInDto);
 			if (loginIsTrue)
+			{
+				TempData["ToastrMessage"] = "Giriş Başarılı";
+				TempData["ToastrType"] = "success";
 				return RedirectToAction("Index", "Default");
+			}
 			else
-				return View();
+            {
+                TempData["ToastrMessage"] = "Kullanıcı adı veya şifre yanlış!";
+                TempData["ToastrType"] = "error"; // success, error, info, warning
+                return View();
+            }
 		}
 
 		[HttpPost]

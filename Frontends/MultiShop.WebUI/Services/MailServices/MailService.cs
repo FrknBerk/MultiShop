@@ -1,13 +1,24 @@
-﻿using MultiShop.DtoLayer.MailDtos;
+﻿using Microsoft.Extensions.Configuration;
+using MultiShop.DtoLayer.MailDtos;
 using System.Net.Mail;
 
 namespace MultiShop.WebUI.Services.MailServices
 {
 	public class MailService : IMailService
 	{
-		public bool SendMail(CreateMailSendDto mailSendDto)
+		private readonly IConfiguration _configuration;
+
+        public MailService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public bool SendMail(CreateMailSendDto mailSendDto)
 		{
-			if (mailSendDto != null)
+			string sendEmailAddress = _configuration["SendMailAddress"];
+			string sendEmailPassword = _configuration["SendMailPassword"];
+			mailSendDto.From = _configuration["SendMailAddress"];
+            if (mailSendDto != null)
 			{
 				MailMessage mail = new MailMessage();
 				mail.To.Add(mailSendDto.To);
@@ -19,7 +30,7 @@ namespace MultiShop.WebUI.Services.MailServices
 				smtp.Host = "smtp.gmail.com";
 				smtp.Port = 587;
 				smtp.UseDefaultCredentials = false;
-				smtp.Credentials = new System.Net.NetworkCredential("Mail adresi", "Uygulama Şifresi oluşturduk");
+				smtp.Credentials = new System.Net.NetworkCredential(sendEmailAddress, sendEmailPassword);
 				smtp.EnableSsl = true;
 				smtp.Send(mail);
 				return true;

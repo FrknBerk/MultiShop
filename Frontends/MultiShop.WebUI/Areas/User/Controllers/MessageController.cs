@@ -59,8 +59,12 @@ namespace MultiShop.WebUI.Areas.User.Controllers
             var result = await _messageService.CreateUserMessageAsync(createUserMessageDto);
             if (result == true)
             {
-                return RedirectToAction("CreateUserMessage", "Message", new { area = "User" });
+                TempData["ToastrMessage"] = "Mesajınız gönderildi";
+                TempData["ToastrType"] = "success";
+                return View("CreateUserMessage");
             }
+            TempData["ToastrMessage"] = "Tekrar deneyiniz...";
+            TempData["ToastrType"] = "error";
             return View();
         }
 
