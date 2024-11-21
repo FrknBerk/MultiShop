@@ -4,11 +4,14 @@
     <div class="row px-xl-5">
         <div class="col">
             <div class="owl-carousel vendor-carousel">
-                @foreach (var item in Model)
+                @if (Model != null)
                 {
-                    <div class="bg-light p-4">
-                        <img src="@item.ImageUrl" alt="@item.BrandName">
-                    </div>
+                    @foreach (var item in Model)
+                    {
+                        <div class="bg-light p-4">
+                            <img src="@item.ImageUrl" alt="@item.BrandName">
+                        </div>
+                    }
                 }
             </div>
         </div>

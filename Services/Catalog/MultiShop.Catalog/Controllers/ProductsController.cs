@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Catalog.Dtos.CategoryDtos;
 using MultiShop.Catalog.Dtos.ProductDtos;
+using MultiShop.Catalog.Entities;
 using MultiShop.Catalog.Services.CategoryServices;
+using MultiShop.Catalog.Services.ElasticSearchServices;
 using MultiShop.Catalog.Services.ProductServices;
 using System.ComponentModel;
 
@@ -15,10 +17,12 @@ namespace MultiShop.Catalog.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly IElasticSearchConnect _elasticSearchConnect;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, IElasticSearchConnect elasticSearchConnect)
         {
             _productService = productService;
+            _elasticSearchConnect = elasticSearchConnect;
         }
 
         [HttpGet]
@@ -38,6 +42,15 @@ namespace MultiShop.Catalog.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CreateProductDto createProductDto)
         {
+            var defaultIndex = "products";
+            var indexExists = _elasticSearchConnect.EsClient().Indices.Exists(defaultIndex);
+            if (!indexExists.Exists)
+            {
+                var response = _elasticSearchConnect.EsClient().Indices.Create(defaultIndex,
+                    index => index.Map<Product>(
+                        x => x.AutoMap()));
+            }
+            var indexResponse = _elasticSearchConnect.EsClient().IndexDocument(createProductDto);
             await _productService.CreateProductAsync(createProductDto);
             return Ok("Ürün başarıyla Eklendi");
         }

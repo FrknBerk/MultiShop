@@ -31,6 +31,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         [Route("Index")]
         public async Task<IActionResult> Index()
 
+        
         {
             CategoryViewBagList();
             var values = await _categoryService.GetAllCategoryAsync();

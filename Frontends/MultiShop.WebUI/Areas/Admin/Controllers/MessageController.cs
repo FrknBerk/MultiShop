@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IdentityModel.Client;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.MailDtos;
 using MultiShop.DtoLayer.MessageDtos;
 using MultiShop.WebUI.Services.IdentityServices.UserIdentityServices;
@@ -8,6 +10,7 @@ using MultiShop.WebUI.Services.MessageServices;
 
 namespace MultiShop.WebUI.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class MessageController : Controller
     {

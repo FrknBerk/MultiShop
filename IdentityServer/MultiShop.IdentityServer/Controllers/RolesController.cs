@@ -109,6 +109,17 @@ namespace MultiShop.IdentityServer.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetUserNameRole")]
+        public async Task<IActionResult> GetUserNameRoleAsync(string userName)
+        {
+            var user = await _userManager.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
+            var userRoleName = await _userManager.GetRolesAsync(user);
+            var role = await _roleManager.Roles.Where(x => x.Name == userRoleName.FirstOrDefault()).FirstOrDefaultAsync();
+            if (role != null)
+                return Ok(role.Name);
+            return Ok(null);
+        }
+
         [Route("CreateUserRole")]
         [HttpPost]
         public async Task<IActionResult> CreateUserRole(CreateUserRoleDto createUserRoleDto)
