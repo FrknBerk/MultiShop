@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver.Core.WireProtocol.Messages;
+﻿using Elastic.Clients.Elasticsearch.MachineLearning;
+using MongoDB.Driver.Core.WireProtocol.Messages;
 using MultiShop.Catalog.Entities;
 using MultiShop.DtoLayer.CatalogDtos.ProductDtos;
 using Newtonsoft.Json;
@@ -51,6 +52,14 @@ namespace MultiShop.WebUI.Services.CatalogServices.ProductServices
             var response = await _httpClient.GetAsync("products/ProductListWithCategoryByCategoryId?categoryId=" + categoryId);
             var jsonData = await response.Content.ReadAsStringAsync();
             var values = JsonConvert.DeserializeObject<List<ResultProductWithCategoryDto>>(jsonData);
+            return values;
+        }
+
+        public async Task<List<ResultProductDto>> SearchProductNameAsync(string productName)
+        {
+            var response = await _httpClient.GetAsync("products/SearchProductName?productName=" + productName);
+            var jsonData = await response.Content.ReadAsStringAsync();
+            var values = JsonConvert.DeserializeObject<List<ResultProductDto>>(jsonData);
             return values;
         }
 

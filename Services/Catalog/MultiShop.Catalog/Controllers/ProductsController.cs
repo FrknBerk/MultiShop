@@ -17,17 +17,21 @@ namespace MultiShop.Catalog.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
-        private readonly IElasticSearchConnect _elasticSearchConnect;
+        private readonly IElasticSearchService _elasticSearchService;
 
-        public ProductsController(IProductService productService, IElasticSearchConnect elasticSearchConnect)
+        public ProductsController(IProductService productService, IElasticSearchService elasticSearchService)
         {
             _productService = productService;
-            _elasticSearchConnect = elasticSearchConnect;
+            _elasticSearchService = elasticSearchService;
         }
 
         [HttpGet]
         public async Task<IActionResult> CategoryList()
         {
+
+            var result1 = await _elasticSearchService.FuzzyQueryAsync<Product>(x => x.ProductName, "gömlek", ElasticsearchIndexes.Product);
+            var resul2 = await _elasticSearchService.BoolQueryAsync<Product>(x => x.ProductName, "keten", x => x.ProductName, "göm", x => x.ProductName, "*g*",ElasticsearchIndexes.Product);
+            var result = await _elasticSearchService.GetDocumentsAsync<Product>(ElasticsearchIndexes.Product);
             var values = await _productService.GetAllProductAsync();
             return Ok(values);
         }
@@ -42,15 +46,7 @@ namespace MultiShop.Catalog.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CreateProductDto createProductDto)
         {
-            var defaultIndex = "products";
-            var indexExists = _elasticSearchConnect.EsClient().Indices.Exists(defaultIndex);
-            if (!indexExists.Exists)
-            {
-                var response = _elasticSearchConnect.EsClient().Indices.Create(defaultIndex,
-                    index => index.Map<Product>(
-                        x => x.AutoMap()));
-            }
-            var indexResponse = _elasticSearchConnect.EsClient().IndexDocument(createProductDto);
+            _elasticSearchService.CreateDocumentAsync(createProductDto);
             await _productService.CreateProductAsync(createProductDto);
             return Ok("Ürün başarıyla Eklendi");
         }
@@ -58,6 +54,8 @@ namespace MultiShop.Catalog.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteCategory(string id)
         {
+            var product = await _productService.GetByIdProductAsync(id);
+            _elasticSearchService.DeleteDocumentAsync<Product>(product.Id.ToString(),ElasticsearchIndexes.Product);
             await _productService.DeleteProductAsync(id);
             return Ok("Ürün başarıyla silindi");
         }
@@ -65,6 +63,7 @@ namespace MultiShop.Catalog.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateCAtegory(UpdateProductDto updateProductDto)
         {
+            await _elasticSearchService.UpdateDocumentAsync<Product>(updateProductDto.Id.ToString(), updateProductDto, ElasticsearchIndexes.Product);
             await _productService.UpdateProductAsync(updateProductDto);
             return Ok("Ürün başarıyla güncellendi");
         }
@@ -80,6 +79,13 @@ namespace MultiShop.Catalog.Controllers
         public async Task<IActionResult> ProductListWithCategory(string categoryId)
         {
             var values = await _productService.GetProductsWithCategoryByCategoryIdAsync(categoryId);
+            return Ok(values);
+        }
+
+        [HttpGet("SearchProductName")]
+        public async Task<IActionResult> SearchProductNameAsync(string productName)
+        {
+            var values = await _elasticSearchService.WildcardQueryAsync<Product>(p => p.ProductName,productName, ElasticsearchIndexes.Product);
             return Ok(values);
         }
     }

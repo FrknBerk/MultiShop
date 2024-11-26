@@ -1,6 +1,8 @@
-﻿namespace MultiShop.Catalog.Dtos.ProductDtos
+﻿using MultiShop.Catalog.Entities.Abstract;
+
+namespace MultiShop.Catalog.Dtos.ProductDtos
 {
-    public class UpdateProductDto
+    public class UpdateProductDto : IElasticsearchModal
     {
         public string ProductId { get; set; }
         public string ProductName { get; set; }
@@ -8,5 +10,6 @@
         public string ProductImageUrl { get; set; }
         public string ProductDescription { get; set; }
         public string CategoryId { get; set; }
+        public Guid Id { get; set; }
     }
 }

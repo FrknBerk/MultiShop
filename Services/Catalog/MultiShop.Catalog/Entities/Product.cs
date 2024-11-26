@@ -1,9 +1,10 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MultiShop.Catalog.Entities.Abstract;
 
 namespace MultiShop.Catalog.Entities
 {
-    public class Product
+    public class Product : IElasticsearchModal
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -15,5 +16,7 @@ namespace MultiShop.Catalog.Entities
         public string CategoryId { get; set; }
         [BsonIgnore]
         public Category Category { get; set; }
+
+        public Guid Id { get; set; } = Guid.NewGuid(); 
     }
 }

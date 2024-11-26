@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.CommentDtos;
+using MultiShop.WebUI.Services.CatalogServices.ProductServices;
 using MultiShop.WebUI.Services.CommentServices;
 using MultiShop.WebUI.Services.Interface;
 using Newtonsoft.Json;
@@ -12,12 +13,14 @@ namespace MultiShop.WebUI.Controllers
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IUserService _userService;
         private readonly ICommentService _commentService;
+        private readonly IProductService _productService;
 
-        public ProductListController(IHttpClientFactory httpClientFactory, IUserService userService, ICommentService commentService)
+        public ProductListController(IHttpClientFactory httpClientFactory, IUserService userService, ICommentService commentService, IProductService productService)
         {
             _httpClientFactory = httpClientFactory;
             _userService = userService;
             _commentService = commentService;
+            _productService = productService;
         }
         public IActionResult Index(string id)
         {
@@ -55,6 +58,12 @@ namespace MultiShop.WebUI.Controllers
             createCommentDto.Email = user.Email;
             await _commentService.CreateCommentAsync(createCommentDto);            
             return PartialView("AddComment");
+        }
+
+        public async Task<JsonResult> SearchProductName(string productName)
+        {
+            var values = await _productService.SearchProductNameAsync(productName);
+            return Json(values);
         }
     }
 }

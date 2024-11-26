@@ -72,7 +72,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> CreateCategory(CreateProductDto createProductDto)
         {
             await _productService.CreateProductAsync(createProductDto);
-            return RedirectToAction("Index", "Product", new { area = "Admin" });
+            return RedirectToAction("ProductListWithCategory", "Product", new { area = "Admin" });
         }
         [Route("DeleteProduct/{id}")]
         public async Task<IActionResult> DeleteCategory(string id)
