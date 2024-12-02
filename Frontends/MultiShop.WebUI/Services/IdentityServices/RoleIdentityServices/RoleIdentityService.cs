@@ -67,7 +67,15 @@ namespace MultiShop.WebUI.Services.IdentityServices.RoleIdentityServices
             return values;
         }
 
-        public async Task<List<ResultRoleDto>> GetRolesAsync()
+		public async Task<ResultRoleDto> GetRoleNameAsync(string roleName)
+		{
+			var responseMessage = await _httpClient.GetAsync("api/Roles/GetRoleName?roleName="+roleName);
+			var jsonData = await responseMessage.Content.ReadAsStringAsync();
+			var values = JsonConvert.DeserializeObject<ResultRoleDto>(jsonData);
+			return values;
+		}
+
+		public async Task<List<ResultRoleDto>> GetRolesAsync()
         {
             var responseMessage = await _httpClient.GetAsync("api/Roles/RoleList");
             var jsonData = await responseMessage.Content.ReadAsStringAsync();

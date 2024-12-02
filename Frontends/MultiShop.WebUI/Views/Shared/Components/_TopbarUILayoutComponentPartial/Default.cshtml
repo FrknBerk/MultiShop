@@ -32,7 +32,7 @@
     <div id="myModal" class="search-modal">
         <div class="search-modal-content">
             <span class="search-close">&times;</span>
-            <div id="products">
+            <div id="products-1">
 
             </div>
         </div>
@@ -42,15 +42,16 @@
     $(document).ready(function () {
 
         function addDivIdHtml(elementId){
-            var divproduct = "<div id='products'></div>";
+            console.log(elementId);
+            var divproduct = "<div id='"+ elementId + "'></div>";
             $('.search-modal-content').append(divproduct);
         }
 
         function clearHtmlId(elementId) {
-            console.log($(elementId).html(""));
             document.getElementById(elementId).remove();
         }
         $("#search").click(function () {
+            var count = 0;
             var modal = document.getElementById("myModal");
             var span = document.getElementsByClassName("search-close")[0];
 
@@ -62,8 +63,9 @@
             inputField.addEventListener('keyup', function (event) {
                 // Input alanındaki değeri al
                 const currentValue = inputField.value;
-                console.log(event.key)
                 if (event.key === 'Enter') {
+                    count++;
+                    console.log(count);
                     modal.style.display = "block";
                     $.ajax({
                         type: 'GET',
@@ -75,27 +77,26 @@
                             console.log(data);
                             if (data != null) {
                                 $.each(data, function (i, item) {
-                                    product += "<p>"+ item.productName + "</p>";
+                                    product += "<a href='/ProductList/ProductDetail/"+ item.id + "'><p>" + item.productName + "</p></a>";
                                 });
                             }
-                            $('#products').append(product);
+                            $('#products'+"-"+count).append(product);
                         },
                     });
-                    console.log(currentValue);
                 }
             });
 
 
             span.onclick = function(event) {
                 modal.style.display = "none";
-                clearHtmlId("products");
-                addDivIdHtml("products");
+                clearHtmlId("products"+"-"+ count);
+                addDivIdHtml("products"+ "-" + count);
             }
             window.onclick = function(event){
                 if(event.target == modal){
                     modal.style.display = "none";
-                    clearHtmlId("products");
-                    addDivIdHtml("products")
+                    clearHtmlId("products" + "-" + count);
+                    addDivIdHtml("products" + "-" + count)
                 }
             }
         });

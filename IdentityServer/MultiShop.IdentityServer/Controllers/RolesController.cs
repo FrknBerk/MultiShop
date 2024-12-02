@@ -174,5 +174,12 @@ namespace MultiShop.IdentityServer.Controllers
             else
                 return BadRequest("Kullanıcı silinemedi");
         }
+
+        [HttpGet("GetRoleName")]
+        public async Task<IActionResult> GetRoleNameAsync(string roleName)
+        {
+            var result = await _roleManager.Roles.Where(x => x.Name == roleName).FirstOrDefaultAsync();
+            return Ok(result);
+        }
     }
 }

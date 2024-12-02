@@ -32,7 +32,22 @@ namespace MultiShop.WebUI.Services.CatalogServices.ProductServices
             return values;
         }
 
-        public async Task<ResultProductDto> GetByIdProductAsync(string id)
+        public async Task<GetByIdProductDto> GetByIdProductAsync(string id)
+        {
+            var response = await _httpClient.GetAsync("products/GetByIdProduct?id=" + id);
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonData = await response.Content.ReadAsStringAsync();
+                var values = JsonConvert.DeserializeObject<GetByIdProductDto>(jsonData);
+                return values;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<ResultProductDto> GetByProductIdProductAsync(string id)
         {
             var reponseMessage = await _httpClient.GetAsync("products/" + id);
             var values = await reponseMessage.Content.ReadFromJsonAsync<ResultProductDto>();

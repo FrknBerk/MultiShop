@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MultiShop.DtoLayer.CatalogDtos.CategoryDtos;
 using MultiShop.DtoLayer.CatalogDtos.ProductDtos;
+using MultiShop.WebUI.CustomFilters;
 using MultiShop.WebUI.Services.CatalogServices.CategoryServices;
 using MultiShop.WebUI.Services.CatalogServices.ProductServices;
 using Newtonsoft.Json;
@@ -46,6 +47,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             return View(values);
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("CreateProduct")]
         [HttpGet]
         public async Task<IActionResult> CreateProduct()
@@ -101,7 +103,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
                                                        Value = x.CategoryId
                                                    }).ToList();
             ViewBag.CategoryValues = categoryValues;
-            var productValues = await _productService.GetByIdProductAsync(id);
+            var productValues = await _productService.GetByProductIdProductAsync(id);
             return View(productValues);
         }
 

@@ -39,7 +39,7 @@ namespace MultiShop.Catalog.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(string id)
         {
-            var values = await _productService.GetByIdProductAsync(id);
+            var values = await _productService.GetByProductIdProductAsync(id);
             return Ok(values);
         }
 
@@ -54,7 +54,7 @@ namespace MultiShop.Catalog.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteCategory(string id)
         {
-            var product = await _productService.GetByIdProductAsync(id);
+            var product = await _productService.GetByProductIdProductAsync(id);
             _elasticSearchService.DeleteDocumentAsync<Product>(product.Id.ToString(),ElasticsearchIndexes.Product);
             await _productService.DeleteProductAsync(id);
             return Ok("Ürün başarıyla silindi");
@@ -86,6 +86,13 @@ namespace MultiShop.Catalog.Controllers
         public async Task<IActionResult> SearchProductNameAsync(string productName)
         {
             var values = await _elasticSearchService.WildcardQueryAsync<Product>(p => p.ProductName,productName, ElasticsearchIndexes.Product);
+            return Ok(values);
+        }
+
+        [HttpGet("GetByIdProduct")]
+        public async Task<IActionResult> GetByIdProductAsync(string id)
+        {
+            var values = await _productService.GetByIdProductAsync(id);
             return Ok(values);
         }
     }

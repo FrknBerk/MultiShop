@@ -40,6 +40,14 @@ using MultiShop.WebUI.Settings;
 var builder = WebApplication.CreateBuilder(args);
 
 
+
+builder.Services.AddAuthorization(opt =>
+{
+    opt.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+    opt.AddPolicy("Manager", policy => policy.RequireRole("Manager"));
+    opt.AddPolicy("Visitor", policy => policy.RequireRole("Visitor"));
+});
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCookie(JwtBearerDefaults.AuthenticationScheme,opt =>
 {
     opt.LoginPath = "/Login/Index/";
@@ -57,7 +65,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     opt.ExpireTimeSpan = TimeSpan.FromDays(5);
     opt.Cookie.Name = "MultiShopCookie";
     opt.SlidingExpiration = true;
-
 });
 
 builder.Services.AddAccessTokenManagement();
@@ -243,7 +250,6 @@ builder.Services.AddHttpClient<ISignalRMessageService, SignalRMessageService>(op
 {
     opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Message.Path}");
 }).AddHttpMessageHandler<TokenHandler>();
-
 
 
 var app = builder.Build();

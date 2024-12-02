@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.CommentDtos;
 using MultiShop.WebUI.Services.CatalogServices.ProductServices;
 using MultiShop.WebUI.Services.CommentServices;
@@ -30,12 +31,16 @@ namespace MultiShop.WebUI.Controllers
             ViewBag.i = id;
             return View();
         }
-        public IActionResult ProductDetail(string id)
+        public async Task<IActionResult> ProductDetail(string id)
         {
             ViewBag.directory1 = "Ana Sayfa";
             ViewBag.directory2 = "Ürün Listesi";
             ViewBag.directory3 = "Ürün Detayları";
-            ViewBag.x = id;
+            var product = await _productService.GetByIdProductAsync(id);
+            if (product != null)
+                ViewBag.x = product.ProductId;
+            else
+                ViewBag.x = id;
             return View();
         }
 

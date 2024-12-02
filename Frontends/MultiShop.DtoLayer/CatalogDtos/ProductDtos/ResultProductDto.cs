@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MultiShop.DtoLayer.CatalogDtos.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MultiShop.DtoLayer.CatalogDtos.ProductDtos
 {
-    public class ResultProductDto
+    public class ResultProductDto : IElasticsearchModal
     {
         public string ProductId { get; set; }
         public string ProductName { get; set; }
@@ -14,5 +15,6 @@ namespace MultiShop.DtoLayer.CatalogDtos.ProductDtos
         public string ProductImageUrl { get; set; }
         public string ProductDescription { get; set; }
         public string CategoryId { get; set; }
+        public Guid Id { get ; set ; }
     }
 }

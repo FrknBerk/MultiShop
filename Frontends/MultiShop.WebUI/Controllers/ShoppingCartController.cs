@@ -33,7 +33,7 @@ namespace MultiShop.WebUI.Controllers
 
         public async Task<IActionResult> AddBasketItem(string id)
         {
-            var values = await _productService.GetByIdProductAsync(id);
+            var values = await _productService.GetByProductIdProductAsync(id);
             var items = new BasketItemDto
             {
                 ProductId = values.ProductId,

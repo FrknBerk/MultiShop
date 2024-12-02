@@ -15,5 +15,7 @@ namespace MultiShop.WebUI.Services.IdentityServices.RoleIdentityServices
         Task<CreateUserRoleDto> CreateUserRoleAsync(CreateUserRoleDto createUserRoleDto);
         Task<bool> DeleteUserRoleAsync(CreateUserRoleDto createUserRoleDto);
         Task<List<ResultUserDto>> GetUsersInRoleAsync(string roleName);
-    }
+        Task<ResultRoleDto> GetRoleNameAsync(string roleName);
+
+	}
 }

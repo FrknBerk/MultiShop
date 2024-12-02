@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.IdentityDtos.RegisterDtos;
+using MultiShop.DtoLayer.IdentityDtos.UserRoleDtos;
+using MultiShop.WebUI.Services.IdentityServices.RoleIdentityServices;
+using MultiShop.WebUI.Services.Interface;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -7,11 +10,13 @@ namespace MultiShop.WebUI.Controllers
 {
     public class RegisterController : Controller
     {
-		private readonly IHttpClientFactory _httpClientFactory;
+		private readonly ILoginService _loginService;
+        private readonly IRoleIdentityService _roleIdentityService;
 
-		public RegisterController(IHttpClientFactory httpClientFactory)
+		public RegisterController(ILoginService loginService, IRoleIdentityService roleIdentityService)
 		{
-			_httpClientFactory = httpClientFactory;
+			_loginService = loginService;
+			_roleIdentityService = roleIdentityService;
 		}
 		[HttpGet]
         public IActionResult Index()
@@ -24,16 +29,43 @@ namespace MultiShop.WebUI.Controllers
 		{
 			if(createRegisterDto.Password == createRegisterDto.ConfirmPassword)
 			{
-				var client = _httpClientFactory.CreateClient();
-				var jsonData = JsonConvert.SerializeObject(createRegisterDto);
-				StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-				var responseMessage = await client.PostAsync("http://localhost:5001/api/Registers", stringContent);
-				if (responseMessage.IsSuccessStatusCode)
+				var ifExistsUserName = await _loginService.IfExistsUserNameAsync(createRegisterDto.Username);
+				if (ifExistsUserName)
 				{
-					return RedirectToAction("Index", "Login");
-				}
+                    TempData["ToastrMessage"] = $"{createRegisterDto.Username} kullanıcı adı kullanılıyor";
+                    TempData["ToastrType"] = "error";
+					return View();
+                }
+                var ifExistsEmail = await _loginService.IfExistsEmailAsync(createRegisterDto.Email);
+                if(ifExistsEmail)
+                {
+                    TempData["ToastrMessage"] = $"{createRegisterDto.Email} kullanılıyor";
+                    TempData["ToastrType"] = "error";
+                    return View();
+                }
+				var register = await _loginService.RegisterUserAsync(createRegisterDto);
+				if(register)
+				{
+                    var user = await _loginService.GetByEmailUserAsync(createRegisterDto.Email);
+					var role = await _roleIdentityService.GetRoleNameAsync("Visitor");
+					var addRole = new CreateUserRoleDto
+					{
+						RoleId = role.Id,
+						UserId = user.Id
+					};
+					var result = await _roleIdentityService.CreateUserRoleAsync(addRole);
+					TempData["ToastrMessage"] = "Giriş Başarılı";
+                    TempData["ToastrType"] = "success";
+                    return RedirectToAction("Index", "Login");
+                }
+                return View();
 			}
-			return View();
+			else
+            {
+                TempData["ToastrMessage"] = "Şifreler Aynı olmalı";
+                TempData["ToastrType"] = "error";
+                return View();
+            }
 		}
 	}
 }

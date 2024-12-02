@@ -15,7 +15,7 @@ namespace MultiShop.WebUI.Areas.User.Controllers
 
         public async Task<JsonResult> GetByProductId(string productId)
         {
-            var value =await _productService.GetByIdProductAsync(productId);
+            var value =await _productService.GetByProductIdProductAsync(productId);
             return Json(value);
         }
     }
