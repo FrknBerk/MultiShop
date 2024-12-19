@@ -17,6 +17,10 @@ namespace MultiShop.Catalog.Entities
         [BsonIgnore]
         public Category Category { get; set; }
 
+        public string BrandId { get; set; }
+        [BsonIgnore]
+        public Brand Brand { get; set; }
+
         public Guid Id { get; set; } = Guid.NewGuid(); 
     }
 }

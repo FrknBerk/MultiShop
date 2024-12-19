@@ -1,0 +1,46 @@
+﻿@model List<ResultPropertyTypeDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+    int count = 0;
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <div class="bs-example" data-example-id="bordered-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Kategori Adı</th>
+                                <th>Özellik Adı</th>
+                                <th>Sil</th>
+                                <th>Güncelle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    count++;
+                                    <tr>
+                                        <th scope="row">@count</th>
+                                        <td>@item.Category.CategoryName</td>
+                                        <td>@item.PropertyName</td>
+                                        <td><a href="/Admin/PropertyType/DeletePropertyType/@item.PropertyId" class="btn btn-warning">Sil</a></td>
+                                        <td><a href="/Admin/PropertyType/UpdatePropertyType/@item.PropertyId" class="btn btn-success">Güncelle</a></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    <a href="/Admin/PropertyType/CreatePropertyType/" class="btn btn-primary">Yeni Özellik girişi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

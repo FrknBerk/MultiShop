@@ -16,7 +16,9 @@ using MultiShop.WebUI.Services.CatalogServices.FeatureServices;
 using MultiShop.WebUI.Services.CatalogServices.OfferDiscountServices;
 using MultiShop.WebUI.Services.CatalogServices.ProductDetailServices;
 using MultiShop.WebUI.Services.CatalogServices.ProductImageServices;
+using MultiShop.WebUI.Services.CatalogServices.ProductPropertyServices;
 using MultiShop.WebUI.Services.CatalogServices.ProductServices;
+using MultiShop.WebUI.Services.CatalogServices.PropertyTypeServices;
 using MultiShop.WebUI.Services.CatalogServices.SliderServices;
 using MultiShop.WebUI.Services.CatalogServices.SpecialOfferServices;
 using MultiShop.WebUI.Services.CommentServices;
@@ -251,6 +253,15 @@ builder.Services.AddHttpClient<ISignalRMessageService, SignalRMessageService>(op
     opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Message.Path}");
 }).AddHttpMessageHandler<TokenHandler>();
 
+builder.Services.AddHttpClient<IProductPropertyService, ProductPropertyService>(opt =>
+{
+    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
+}).AddHttpMessageHandler<TokenHandler>();
+
+builder.Services.AddHttpClient<IPropertyTypeService, PropertyTypeService>(opt =>
+{
+    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
+}).AddHttpMessageHandler<TokenHandler>();
 
 var app = builder.Build();
 

@@ -47,10 +47,10 @@ namespace MultiShop.WebUI.Services.CatalogServices.ProductServices
             }
         }
 
-        public async Task<ResultProductDto> GetByProductIdProductAsync(string id)
+        public async Task<UpdateProductDto> GetByProductIdProductAsync(string id)
         {
             var reponseMessage = await _httpClient.GetAsync("products/" + id);
-            var values = await reponseMessage.Content.ReadFromJsonAsync<ResultProductDto>();
+            var values = await reponseMessage.Content.ReadFromJsonAsync<UpdateProductDto>();
             return values;
         }
 

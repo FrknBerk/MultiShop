@@ -1,0 +1,24 @@
+﻿@model CreatePropertyTypeDto
+@{
+    ViewData["Title"] = "CreatePropertyType";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <div class="bs-example" data-example-id="bordered-table">
+                    <form method="post">
+                        <label>Ürün Kategorisi</label>
+                        @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.Category, new { @class = "form-control dropdownform" })
+                        <br />
+                        <input type="text" class="form-control" asp-for="PropertyName" placeholder="Özellik Giriniz..." />
+                        <br />
+                        <button class="btn btn-primary">Özellik Ekle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

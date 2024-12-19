@@ -16,5 +16,7 @@
         public string AboutCollectionName { get; set; }
         public string ContactCollectionName { get; set; }
         public string FavoriteProductCollectionName { get; set; }
+        public string ProductPropertyCollectionName { get; set; }
+        public string PropertyTypeCollectionName { get; set; }
     }
 }

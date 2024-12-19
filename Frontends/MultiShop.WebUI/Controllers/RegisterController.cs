@@ -46,7 +46,7 @@ namespace MultiShop.WebUI.Controllers
 				var register = await _loginService.RegisterUserAsync(createRegisterDto);
 				if(register)
 				{
-                    var user = await _loginService.GetByEmailUserAsync(createRegisterDto.Email);
+					var user = await _loginService.GetByEmailUserAsync(createRegisterDto.Email);
 					var role = await _roleIdentityService.GetRoleNameAsync("Visitor");
 					var addRole = new CreateUserRoleDto
 					{

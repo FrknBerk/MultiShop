@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MultiShop.DtoLayer.CatalogDtos.CategoryDtos;
 using MultiShop.DtoLayer.CatalogDtos.ProductDtos;
 using MultiShop.WebUI.CustomFilters;
+using MultiShop.WebUI.Services.CatalogServices.BrandServices;
 using MultiShop.WebUI.Services.CatalogServices.CategoryServices;
 using MultiShop.WebUI.Services.CatalogServices.ProductServices;
 using Newtonsoft.Json;
@@ -18,12 +19,14 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
+        private readonly IBrandService _brandService;
 
-        public ProductController(IHttpClientFactory httpClientFactory, IProductService productService, ICategoryService categoryService)
+        public ProductController(IHttpClientFactory httpClientFactory, IProductService productService, ICategoryService categoryService, IBrandService brandService)
         {
             _httpClientFactory = httpClientFactory;
             _productService = productService;
             _categoryService = categoryService;
+            _brandService = brandService;
         }
 
         [Route("Index")]
@@ -47,7 +50,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             return View(values);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [Route("CreateProduct")]
         [HttpGet]
         public async Task<IActionResult> CreateProduct()
@@ -66,6 +69,14 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
                                                        Value = x.CategoryId
                                                    }).ToList();
             ViewBag.CategoryValues = categoryValues;
+            var brandValues = await _brandService.GetAllBrandAsync();
+            List<SelectListItem> dropdownBrand = (from x in brandValues
+                                                select new SelectListItem
+                                                {
+                                                    Text = x.BrandName,
+                                                    Value = x.BrandId
+                                                }).ToList();
+            ViewBag.BrandValues = dropdownBrand;
             return View();
         }
 
@@ -103,6 +114,14 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
                                                        Value = x.CategoryId
                                                    }).ToList();
             ViewBag.CategoryValues = categoryValues;
+            var brandValues = await _brandService.GetAllBrandAsync();
+            List<SelectListItem> dropdownBrand = (from x in brandValues
+                                                  select new SelectListItem
+                                                  {
+                                                      Text = x.BrandName,
+                                                      Value = x.BrandId
+                                                  }).ToList();
+            ViewBag.BrandValues = dropdownBrand;
             var productValues = await _productService.GetByProductIdProductAsync(id);
             return View(productValues);
         }

@@ -10,6 +10,8 @@ using MultiShop.Catalog.Dtos.OfferDiscountDtos;
 using MultiShop.Catalog.Dtos.ProductDetailDtos;
 using MultiShop.Catalog.Dtos.ProductDtos;
 using MultiShop.Catalog.Dtos.ProductImageDtos;
+using MultiShop.Catalog.Dtos.ProductPropertyDtos;
+using MultiShop.Catalog.Dtos.PropertyTypeDtos;
 using MultiShop.Catalog.Dtos.SpecialOfferDtos;
 using MultiShop.Catalog.Entities;
 
@@ -78,6 +80,17 @@ namespace MultiShop.Catalog.Mapping
 
             CreateMap<FavoriteProduct,ResultFavoriteProductDto>().ReverseMap();
             CreateMap<FavoriteProduct,CreateFavoriteProductDto>().ReverseMap();
+
+            CreateMap<ProductProperty, ResultProductPropertyDto>().ReverseMap();
+            CreateMap<ProductProperty, CreateProductPropertyDto>().ReverseMap();
+            CreateMap<ProductProperty, UpdateProductPropertyDto>().ReverseMap();
+            CreateMap<ProductProperty, GetByIdProductPropertyDto>().ReverseMap();
+
+
+            CreateMap<PropertyType, ResultPropertyTypeDto>().ReverseMap();
+            CreateMap<PropertyType, CreatePropertyTypeDto>().ReverseMap();
+            CreateMap<PropertyType, UpdatePropertyTypeDto>().ReverseMap();
+            CreateMap<PropertyType, GetByIdPropertyTypeDto>().ReverseMap();
         }
     }
 }

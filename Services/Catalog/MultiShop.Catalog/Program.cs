@@ -13,7 +13,9 @@ using MultiShop.Catalog.Services.FeatureSliderServices;
 using MultiShop.Catalog.Services.OfferDiscountServices;
 using MultiShop.Catalog.Services.ProductDetailServices;
 using MultiShop.Catalog.Services.ProductImageServices;
+using MultiShop.Catalog.Services.ProductPropertyServices;
 using MultiShop.Catalog.Services.ProductServices;
+using MultiShop.Catalog.Services.PropertyTypeServices;
 using MultiShop.Catalog.Services.SpecialOfferServices;
 using MultiShop.Catalog.Services.StatisticServices;
 using MultiShop.Catalog.Settings;
@@ -42,6 +44,8 @@ builder.Services.AddScoped<IAboutService, AboutService>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IStatisticService, StatisticService>();
 builder.Services.AddScoped<IFavoriteProductService, FavoriteProductService>();
+builder.Services.AddScoped<IProductPropertyService, ProductPropertyService>();
+builder.Services.AddScoped<IPropertyTypeService, PropertyTypeService>();
 builder.Services.AddScoped<IElasticSearchService, ElasticSearchService>();
 
 

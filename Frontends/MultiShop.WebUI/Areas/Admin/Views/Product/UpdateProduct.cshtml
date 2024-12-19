@@ -23,6 +23,9 @@
                         <label>Ürün Kategorisi</label>
                         @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.CategoryValues, new { @class = "form-control dropdownform" })
                         <br />
+                        <label>Marka</label>
+                        @Html.DropDownListFor(x => x.BrandId, (List<SelectListItem>)ViewBag.BrandValues, new { @class="form-control dropdownform"})
+                        <br />
                         <label>Ürün Açıklması</label>
                         <textarea class="form-control" asp-for="ProductDescription" placeholder="Ürün açıklaması..." rows="5"></textarea>
                         <button class="btn btn-primary">Ürün Güncelle</button>
