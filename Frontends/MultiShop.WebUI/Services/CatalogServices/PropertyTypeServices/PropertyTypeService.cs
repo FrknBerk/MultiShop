@@ -30,6 +30,14 @@ namespace MultiShop.WebUI.Services.CatalogServices.PropertyTypeServices
             return values;
         }
 
+        public async Task<List<ResultPropertyTypeDto>> GetByCategoryIdPropertyTypeAsync(string categoryId)
+        {
+            var responseMessage = await _httpClient.GetAsync("propertytypes/GetByCategoryIdPropertyType/" + categoryId);
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            var values = JsonConvert.DeserializeObject<List<ResultPropertyTypeDto>>(jsonData);
+            return values;
+        }
+
         public async Task<UpdatePropertyTypeDto> GetByIdPropertyTypeAsync(string id)
         {
             var reponseMessage = await _httpClient.GetAsync("propertytypes/" + id);

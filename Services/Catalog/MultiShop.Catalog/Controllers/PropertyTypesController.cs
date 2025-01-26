@@ -30,6 +30,13 @@ namespace MultiShop.Catalog.Controllers
             return Ok(values);
         }
 
+        [HttpGet("GetByCategoryIdPropertyType/{id}")]
+        public async Task<IActionResult> GetByCategoryIdPropertyTypeAsync(string id)
+        {
+            var values = await _propertyTypeService.GetByCategoryIdPropertyTypeAsync(id);
+            return Ok(values);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreatePropertTypeAsync(CreatePropertyTypeDto createPropertyTypeDto)
         {

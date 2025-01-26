@@ -20,6 +20,7 @@
                                 <th>Marka</th>
                                 <th>Sil</th>
                                 <th>Güncelle</th>
+                                <th>Ürün Özellikleri</th>
                                 <th>Ürün Görselleri</th>
                                 <th>Ürün Açıklama ve Bilgileri</th>
                             </tr>
@@ -38,6 +39,7 @@
                                         <td>@item.Brand.BrandName</td>
                                         <td><a href="/Admin/Product/DeleteProduct/@item.ProductId" class="btn btn-warning">Sil</a></td>
                                         <td><a href="/Admin/Product/UpdateProduct/@item.ProductId" class="btn btn-success">Güncelle</a></td>
+                                        <td><a href="/Admin/ProductProperty/CreteProductProperty/@item.ProductId" class="btn"></a>Ürün Özellikleri Ekle</td>
                                         <td><a href="/Admin/ProductImage/Index/@item.ProductId" class="btn btn-warning">Ürün Görselleri</a></td>
                                         <td><a href="/Admin/ProductDetail/UpdateProductDetail/@item.ProductId" class="btn btn-info">Ürün Açıklama ve Bilgileri</a></td>
                                     </tr>

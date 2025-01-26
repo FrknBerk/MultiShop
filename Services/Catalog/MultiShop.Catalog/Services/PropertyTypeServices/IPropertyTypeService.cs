@@ -9,5 +9,6 @@ namespace MultiShop.Catalog.Services.PropertyTypeServices
         Task DeletePropertyTypeAsync(string id);
         Task<List<ResultPropertyTypeDto>> GetAllPropertyTypeAsync();
         Task<UpdatePropertyTypeDto> GetByIdPropertyTypeAsync(string id);
+        Task<List<ResultPropertyTypeDto>> GetByCategoryIdPropertyTypeAsync(string categoryId);
     }
 }

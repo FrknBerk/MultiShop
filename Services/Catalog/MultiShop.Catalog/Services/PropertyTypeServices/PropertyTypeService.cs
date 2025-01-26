@@ -44,6 +44,12 @@ namespace MultiShop.Catalog.Services.PropertyTypeServices
             return _mapper.Map<List<ResultPropertyTypeDto>>(values);
         }
 
+        public async Task<List<ResultPropertyTypeDto>> GetByCategoryIdPropertyTypeAsync(string categoryId)
+        {
+            var values = await _propertyTypeCollection.Find(x => x.CategoryId == categoryId).ToListAsync();
+            return _mapper.Map<List<ResultPropertyTypeDto>>(values);
+        }
+
         public async Task<UpdatePropertyTypeDto> GetByIdPropertyTypeAsync(string id)
         {
             var values = await _propertyTypeCollection.Find(x => x.PropertyId == id).FirstOrDefaultAsync();
